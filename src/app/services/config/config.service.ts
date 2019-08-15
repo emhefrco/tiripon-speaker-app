@@ -4,6 +4,13 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class ConfigService {
+  public baseUrl    : string;
+  public controller : string; 
+  public decksDir   : string;
 
-  constructor() { }
+  constructor() {
+    this.baseUrl    = 'https://www.tiripon.net/';
+    // this.baseUrl    = 'http://www.sandbox.baldpuppiessolutions.com/';
+    this.controller = 'Android_Api_Speaker'; 
+  } 
 }
