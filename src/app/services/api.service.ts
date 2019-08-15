@@ -3,19 +3,23 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs'; 
 import { Material } from '../models/material';
 import { Storage } from '@ionic/storage';
+import { ConfigService } from '../services/config/config.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
-   private baseUrl: string = 'https://www.tiripon.net/';
-  // private baseUrl: string = 'http://www.sandbox.baldpuppiessolutions.com/';
-  private controller: string = 'Android_Api_Speaker/';  
+  private baseUrl    : string; 
+  private controller : string;  
 
   constructor(
-    private httpClient : HttpClient,     
-    private storage    : Storage
-  ) { } 
+    private httpClient    : HttpClient,     
+    private storage       : Storage,
+    private configService : ConfigService
+  ) {
+    this.baseUrl    = this.configService.baseUrl;
+    this.controller = this.configService.controller;
+  } 
 
   uploadFile(event, file) {  
 
