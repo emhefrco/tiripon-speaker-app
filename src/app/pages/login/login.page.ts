@@ -115,55 +115,6 @@ export class LoginPage implements OnInit {
       
     });
 
-    // //this.platform.ready().then(() => {
-    // // this.logoutFacebookAccount(); return;
-    //   this.facebook.login(['public_profile', 'email']).then((response: FacebookLoginResponse) => { 
-    //     alert(JSON.stringify(response));
-    //     const userId = response.authResponse.userID;
-    //     this.presentLoading('Logging into your account.').then(() => {
-    //       this.getFacebookUser(userId).then(facebookUser => {
-    //         alert(JSON.stringify(facebookUser));
-    //         this.apiService.getTiriponUserAccount(facebookUser).then(user => { 
-    //           alert(JSON.stringify(user));
-    //           if (this.doesUserExists(user)) { 
-    //             user = user[0];
-    //             this.storage.set('user', user);
-    //             this.storage.get('user').then(user => {
-    //               //alert(JSON.stringify(user)); 
-    //               this.storage.set('isLogin', true).then(() => {
-    //                 this.displayPage('home');
-    //               });  
-    //             }); 
-    //           } else {
-    //             const options = {
-    //               header: 'Facebook Login',
-    //               message: 'We could not find a <strong>Tiripon account</strong> associated with this Facebook ' +
-    //             'login. Please register an account.'
-    //             }
-                
-    //             this.presentAlert(options).then(() => {
-    //               this.setTextboxesToEmpty();
-    //             });
-    //           }
-
-    //           this.dismissLoading();
-   
-    //           // this.logoutFacebookAccount();
-    //         }); 
-    //       });           
-    //     }); 
-    //     })
-    //     .catch(response => { 
-    //       // let wasFacebookLoginCancelled = response.errorCode === '4201' && response.errorMessage === 'User cancelled dialog';
-
-    //       // if (wasFacebookLoginCancelled) {
-    //       //   alert(response);
-    //       // }
-          
-    //     });
-
-    //   this.facebook.logEvent(this.facebook.EVENTS.EVENT_NAME_ADDED_TO_CART);
-    // //});   
   } 
 
   loginWithGoogle(): void {  
