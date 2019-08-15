@@ -11,6 +11,6 @@ export class ConfigService {
   constructor() {
     this.baseUrl    = 'https://www.tiripon.net/';
     // this.baseUrl    = 'http://www.sandbox.baldpuppiessolutions.com/';
-    this.controller = 'Android_Api_Speaker'; 
+    this.controller = 'Android_Api_Speaker/'; 
   } 
 }

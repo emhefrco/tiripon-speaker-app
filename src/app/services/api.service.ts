@@ -9,8 +9,8 @@ import { ConfigService } from '../services/config/config.service';
   providedIn: 'root'
 })
 export class ApiService {
-  private baseUrl    : string; 
-  private controller : string;  
+  baseUrl    : string; 
+  controller : string;  
 
   constructor(
     private httpClient    : HttpClient,     
