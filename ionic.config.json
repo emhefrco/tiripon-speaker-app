@@ -1,5 +1,7 @@
 {
   "name": "tiripon-speaker-app",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

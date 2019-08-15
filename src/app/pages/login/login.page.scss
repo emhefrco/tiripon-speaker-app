@@ -1,0 +1,29 @@
+.img-size {
+    height: 13vh !important;
+    width: auto !important;
+    margin: 10%;
+    display: block;
+}
+
+.facebook-button {
+    --background:#3b5998;
+    --color: white;
+} 
+
+.gmail-button {
+    --background:#D44638;
+    --color: white;
+}
+
+.icon-margin{
+    margin: 3%;
+}
+
+.item, .list, .item-content, .item-complex {
+    --ion-background-color: transparent !important;
+    --color: white;
+}
+
+ion-content{
+    --background: #fff url('/assets/images/speaker-login.png') no-repeat center center / cover;
+}

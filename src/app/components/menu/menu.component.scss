@@ -1,0 +1,27 @@
+.email-label{
+    color: #9e9e9e;
+    font-size: 13px;
+}
+
+.name-label{
+    font-size: 22px;
+}
+
+.menu-button{
+    --background: rgb(248, 248, 248);
+    --border-radius: 10px;
+    margin-top: 8px;
+}
+
+.profile-img {
+  margin: auto;
+  width: 5rem;
+  height: 5rem;
+} 
+
+ion-header {
+    border: 0px !important;
+    border-bottom-color: transparent !important;
+    background-image: none !important;
+    border-bottom: none !important;
+}

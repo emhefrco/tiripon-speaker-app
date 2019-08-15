@@ -1,0 +1,184 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button> 
+    </ion-buttons>
+    <ion-title style="font-weight: 400;">Profile details</ion-title>
+  </ion-toolbar>
+  <ion-segment class="segment-color" [(ngModel)]="profileType" scrollable>
+    <ion-segment-button checked value="personal" layout="icon-start">
+      <ion-label>Personal</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="company" layout="icon-start">
+      <ion-label>Company</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+</ion-header>
+
+
+
+<ion-content>
+<!--   <div [ngSwitch]="profile" padding>
+    <div *ngSwitchCase="'personal'"> -->
+  <div *ngIf="user" [ngSwitch]="profileType" padding>
+    <div *ngSwitchCase="'personal'">
+      <ion-list lines="none">
+
+        <ion-item>
+          <ion-avatar class="profile-img">
+            <img *ngIf="user.profilePath == null" class="profile-img" src="assets/images/avatar.png">
+            <img *ngIf="user.profilePath != null" class="profile-img" [src]="'https://www.tiripon.net/assets/profile-picture/'+user.profilePath"> 
+          </ion-avatar>
+        </ion-item>
+
+        <br>
+
+        <ion-item>
+          <ion-label>Tiripon ID:</ion-label>
+          <ion-label text-wrap><strong>{{ user.user_tiripon_id }}</strong></ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Full Name:</ion-label>
+          <ion-label text-wrap><strong>{{ user.firstname }} {{ user.middlename }} {{ user.lastname }}</strong>
+          </ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Email:</ion-label>
+          <ion-label text-wrap><strong>{{ user.email }} </strong></ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Gender:</ion-label>
+          <ion-label *ngIf="user.gender !== null && user.gender !== '' && user.gender !== undefined"
+            text-wrap>
+            <strong>{{user.gender}}</strong></ion-label>
+          <ion-label *ngIf="user.gender === null || user.gender === '' || user.gender === undefined"
+            text-wrap>
+            <p>Not Set</p>
+          </ion-label>
+        </ion-item>
+          
+        <ion-item>
+          <ion-label>Organization:</ion-label>
+          <ion-label *ngIf="user.organization !== null && user.organization !== '' && user.organization !== undefined"
+            text-wrap>
+            <strong>{{user.organization}}</strong></ion-label>
+          <ion-label *ngIf="user.organization === null || user.organization === '' || user.organization === undefined"
+            text-wrap>
+            <p>Not Set</p>
+          </ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Contact:</ion-label>
+          <ion-label *ngIf="user.contact !== null && user.contact !== '' && user.contact !== undefined"
+            text-wrap>
+            <strong>{{user.contact}}</strong></ion-label>
+          <ion-label *ngIf="user.contact === null || user.contact === '' || user.contact === undefined"
+            text-wrap>
+            <p>Not Set</p>
+          </ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Profession:</ion-label>
+          <ion-label
+            *ngIf="user.profession !== null && user.profession !== '' && user.profession !== undefined"
+            text-wrap>
+            <strong>{{user.profession}}</strong></ion-label>
+          <ion-label
+            *ngIf="user.profession === null || user.profession === '' || user.profession === undefined"
+            text-wrap>
+            <p>Not Set</p>
+          </ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>TIN:</ion-label>
+          <ion-label *ngIf="user.tax_identification_number !== '' && user.tax_identification_number !== null" text-wrap>
+            <strong>{{user.TIN}}</strong>
+          </ion-label>
+          <ion-label *ngIf="user.tax_identification_number === '' || user.tax_identification_number === null" text-wrap>
+            <p>Not Set</p>
+          </ion-label>
+        </ion-item>
+
+        <!-- <ion-item>
+          <ion-label>Full Address:</ion-label>
+          <ion-label *ngIf="isFullAddress === true" text-wrap><strong>{{user.street}} {{user.province}}
+              {{user.city}} {{user.zipCode}} {{user.country}}</strong></ion-label>
+          <ion-label *ngIf="isFullAddress === false" text-wrap>
+            <p>Not Set</p>
+          </ion-label>
+        </ion-item> -->
+      </ion-list>
+
+      <br>
+
+      <!-- <ion-button class="no-shadow-button" fill="outline" shape="round" name="update" expand="full"
+        (click)="opePasswordEdit()">
+        Change Password
+      </ion-button>
+
+      <ion-button class="no-shadow-button" shape="round" name="update" expand="full" (click)="openProfileEdit()">
+        Update Details
+      </ion-button> -->
+
+<!--       <ion-button class="no-shadow-button" fill="outline" shape="round" name="update" expand="full">
+        Change Password
+      </ion-button>
+
+      <ion-button class="no-shadow-button" shape="round" name="update" expand="full">
+        Update Details
+      </ion-button> -->
+    </div>
+
+    <!-- <div *ngSwitchCase="'company'"> --> 
+    <div *ngSwitchCase="'company'">
+      <ion-list lines="none">
+<!--         <ion-item>
+          <ion-label>Name:</ion-label>
+          <ion-label *ngIf="user.companyName !== '' && user.companyName !== null" text-wrap>
+            <strong>{{user.companyName}}</strong></ion-label>
+          <ion-label *ngIf="user.companyName === '' || user.companyName === null" text-wrap>
+            <p>Not Set</p>
+          </ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Full Address:</ion-label>
+          <ion-label *ngIf="user.companyAddress !== '' && user.companyAddress !== null" text-wrap>
+            <strong>{{userData.companyAddress}}</strong></ion-label>
+          <ion-label *ngIf="user.companyAddress === '' || user.companyAddress === null" text-wrap>
+            <p>Not Set</p>
+          </ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>TIN:</ion-label>
+          <ion-label *ngIf="user.companyTIN !== '' && user.companyTIN !== null" text-wrap>
+            <strong>{{userData.companyTIN}}</strong>
+          </ion-label>
+          <ion-label *ngIf="user.companyTIN === '' || user.companyTIN === null" text-wrap>
+            <p>Not Set</p>
+          </ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Vat Registed:</ion-label>
+          <ion-label *ngIf="user.companyVatRegistered === '1'" text-wrap><strong>Yes</strong></ion-label>
+          <ion-label *ngIf="user.companyVatRegistered === '0'" text-wrap>
+            <p>No</p>
+          </ion-label>
+        </ion-item> -->
+      </ion-list>
+
+<!--       <ion-button class="no-shadow-button" shape="round" expand="full" name="update" (click)="openCompanyEdit()">Update
+        Details
+      </ion-button> -->
+    </div>
+  </div>
+
+</ion-content>

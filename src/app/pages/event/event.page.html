@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/events"></ion-back-button> 
+    </ion-buttons>
+    <ion-title style="font-weight: 400;">Event details</ion-title>
+    <!-- <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon name="share"></ion-icon>
+      </ion-button>
+    </ion-buttons>  -->
+  </ion-toolbar>
+</ion-header>
+<ion-img src="{{ baseUrl + event.event_image_path }}"></ion-img>
+<ion-content padding-start padding-end>  
+  <h1 style="font-weight: 400">{{ event.event_title }}</h1> 
+  <ion-badge color="medium"><small>{{ event.event_type }}</small></ion-badge>
+  <p [innerHTML]="event.event_description"></p> 
+   
+  <ion-item>
+    <ion-icon name="calendar" slot="start"></ion-icon>
+    <ion-label>
+      <p style="font-weight: 350; color: black; font-size: 16px;">Start: {{ event.start | date : "mediumDate" }} at {{ event.start | date : "shortTime" }}</p>
+      <p style="font-weight: 350; color: black; font-size: 16px;">End: {{ event.end | date : "mediumDate" }} at {{ event.end | date : "shortTime" }}</p>
+    </ion-label>
+  </ion-item> 
+  <ion-item>
+    <ion-icon name="pin" slot="start"></ion-icon>
+    <ion-label>
+      <p style="font-weight: 350; color: black; font-size: 16px;">{{ event.province }}, {{ event.country }}</p>
+      <p style="font-weight: 350; font-size: 12px;">{{ event.street }}, {{ event.city }}</p>
+    </ion-label>
+  </ion-item>    
+  
+</ion-content>

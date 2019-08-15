@@ -1,0 +1,79 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button> 
+    </ion-buttons>
+    <ion-title style="font-weight: 400;">Chat Messages<small> (Speaker)</small></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+  <ion-segment (ionChange)="segmentChanged($event)" [(ngModel)]="chatType" value="general">
+    <ion-grid no-padding>
+      <ion-row>
+        <ion-col no-padding>
+          <ion-segment-button value="general"> 
+            <ion-label style="font-weight: 400; ">General</ion-label>
+          </ion-segment-button>          
+        </ion-col>
+        <ion-col no-padding>
+          <ion-segment-button value="direct-messages"> 
+            <ion-label style="font-weight: 400;">Direct Messages</ion-label>
+          </ion-segment-button>          
+        </ion-col>
+      </ion-row>
+    </ion-grid> 
+  </ion-segment>
+
+<ion-content> 
+  
+  <div [ngSwitch]="chatType" padding>
+    
+    <div *ngSwitchCase="'general'">
+      <ion-item lines="none">
+          <ion-label text-center><small>Today</small></ion-label>
+      </ion-item>
+      <ion-list *ngIf="groupChatMessages" no-margin no-padding>
+        <ion-item *ngFor="let groupChatMessage of groupChatMessages" lines="none" no-margin no-padding>
+          <ion-avatar slot="start">
+            <ion-img src="assets/images/avatar.png"></ion-img> 
+          </ion-avatar>
+          <ion-label>
+            <h3>User: {{ groupChatMessage.user_id }}</h3>
+            <small>{{ groupChatMessage.message }}</small>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </div>
+    <div *ngSwitchCase="chatType">
+      <!-- <h1>Direct Messages</h1> -->
+          <div *ngSwitchCase="'direct-messages'">
+      <ion-list *ngIf="participants" no-margin no-padding>
+        <ion-item *ngFor="let participant of participants" lines="none" no-margin no-padding (click)="navigateToDirectMessagePage(participant)">
+          <ion-avatar slot="start" >
+            <ion-img src="assets/images/avatar.png"></ion-img> 
+          </ion-avatar>
+          <ion-label>
+            {{ participant.firstname }} {{ participant.lastname }}
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </div>
+    </div>
+  </div>
+</ion-content>
+<ion-footer no-border>
+  <div [ngSwitch]="chatType" padding>
+    <div *ngSwitchCase="'general'">
+      <!-- <h1>General</h1> --> 
+      <ion-item> 
+        <ion-input type="text" name="" [(ngModel)]="message" placeholder="Send a message"></ion-input>
+        <ion-icon name="paper-plane" (click)="sendMessage()" button>
+          <ion-ripple-effect></ion-ripple-effect>
+        </ion-icon>
+      </ion-item>
+    </div>
+    <div *ngSwitchCase="'direct-messages'">
+      <!-- <h1>Direct Messages</h1> -->
+    </div>
+  </div>
+</ion-footer>

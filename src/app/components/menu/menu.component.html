@@ -1,0 +1,76 @@
+<ion-menu menuId="mainMenu" side="start">
+  <!-- HEADER -->
+  <ion-header padding-start padding-end>
+    <ion-toolbar>  
+        <ion-item lines="none">
+          <ion-avatar *ngIf="!user.profile_path" slot="start">
+            <ion-img src="assets/images/avatar.png"></ion-img> 
+          </ion-avatar>
+          <ion-avatar *ngIf="user.profile_path" slot="start">
+            <ion-img src="assets/images/avatar.png"></ion-img> 
+          </ion-avatar>
+          <ion-label>
+            <p style="font-weight: 350; color: black; font-size: 16px;">{{ user.firstname }} {{ user.lastname }}</p>
+            <p style="font-weight: 350; font-size: 12px;">Speaker</p>
+          </ion-label> 
+        </ion-item> 
+    </ion-toolbar> 
+  </ion-header> 
+
+  <!-- CONTENT -->
+  <ion-content padding-start padding-end>
+
+    <ion-list lines="none">  
+      
+      <!-- <ion-item detail class="menu-button">
+        <ion-avatar slot="start" class="avatar-radius">
+          <img src="/assets/images/profile.png">
+        </ion-avatar>
+        <p style="font-weight: 350; color: black; font-size: 16px;">Profile</p>
+      </ion-item> -->
+      <ion-item detail class="menu-button" routerLink="/profile" (click)="closeMenu()">
+        <ion-ripple-effect type="bounded"></ion-ripple-effect>
+        <ion-avatar slot="start" class="avatar-radius">
+          <img src="/assets/images/profile.png">
+        </ion-avatar>
+        <p style="font-weight: 350; color: black; font-size: 16px;">Profile</p>
+      </ion-item> 
+      <ion-item detail class="menu-button" routerLink="/events" (click)="closeMenu()">
+        <ion-ripple-effect type="bounded"></ion-ripple-effect>
+        <ion-avatar slot="start" class="avatar-radius">
+          <img src="/assets/images/event.png">
+        </ion-avatar>
+        <p style="font-weight: 350; color: black; font-size: 16px;">My Events</p>
+      </ion-item>   
+      <ion-item detail class="menu-button" routerLink="/materials" (click)="closeMenu()">
+        <ion-ripple-effect type="bounded"></ion-ripple-effect>
+        <ion-avatar slot="start" class="avatar-radius">
+          <img src="/assets/images/folder.png">
+        </ion-avatar>
+        <ion-label>
+          <p style="font-weight: 350; color: black; font-size: 16px;">Decks</p>
+        </ion-label>
+      </ion-item>
+      <!-- <ion-item detail class="menu-button" routerLink="/event-chats" (click)="closeMenu()">
+        <ion-ripple-effect type="bounded"></ion-ripple-effect>
+        <ion-avatar slot="start" class="avatar-radius">
+          <img src="/assets/images/chat.png">
+        </ion-avatar>
+        <p style="font-weight: 350; color: black; font-size: 16px;">Chats</p>
+      </ion-item> -->
+    </ion-list>
+
+  </ion-content>
+
+  <!-- FOOTER -->
+  <ion-footer>
+    <ion-item lines="none" (click)="showConfirmLogout()">
+      <ion-label text-center>
+          <p style="font-weight: 350; color: black; font-size: 16px;">Logout</p>
+      </ion-label> 
+    </ion-item>
+  </ion-footer>
+
+</ion-menu>
+
+<ion-router-outlet main></ion-router-outlet>

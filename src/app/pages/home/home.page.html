@@ -1,0 +1,58 @@
+<app-menu></app-menu>
+<ion-header>
+  <ion-toolbar>
+    <ion-title style="font-weight: 400;">Home</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button slot="start"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-item *ngIf="events" lines="full">
+    <ion-label>
+      <p style="font-size: 16px; color: black; font-weight: 350;">Assigned Events <span>(</span>{{ events.length }}<span>)</span></p>  
+    </ion-label> 
+  </ion-item> 
+    <ion-list *ngIf="events" color="light"> 
+      <ion-item class="item" *ngFor="let event of events" (click)="navigateToEventPage(event)" lines="none" button>
+        <ion-ripple-effect type="bounded"></ion-ripple-effect>
+        <ion-thumbnail slot="start">
+          <ion-img src="{{ baseUrl + event.event_image_path }}"></ion-img>
+        </ion-thumbnail>
+        <ion-label>
+          <p style="color: black; font-size: 16px; font-weight: 350;"> 
+            {{ event.event_title }}
+          </p>
+          <p style="font-size: 12px; font-weight: 300;"> 
+            {{ event.province }}, {{ event.country }} 
+          </p> 
+          <!-- <p style="font-size: 12px; font-weight: 300;">  
+            {{ event.start | date : "mediumDate" }} 
+          </p>  -->
+        </ion-label> 
+      </ion-item>    
+  </ion-list>
+  <ion-item *ngIf="!events" lines="full">
+    <ion-label>
+      <p style="font-size: 16px; color: black; font-weight: 350;"><ion-skeleton-text animated style="width: 50%"></ion-skeleton-text></p>  
+    </ion-label> 
+  </ion-item> 
+  <ion-list *ngIf="!events" color="light"> 
+    <ion-item class="item" lines="none" *ngFor="let skeletonItem of skeletonItems">
+      <ion-thumbnail slot="start">
+        <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+      </ion-thumbnail>
+      <ion-label>
+        <p style="color: black; font-size: 16px; font-weight: 350;"> 
+          <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+        </p>
+        <p style="font-size: 12px; font-weight: 300;"> 
+          <ion-skeleton-text animated style="width: 75%"></ion-skeleton-text>
+        </p> 
+        <p style="font-size: 12px; font-weight: 300;">  
+          <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+        </p> 
+      </ion-label> 
+    </ion-item>    
+  </ion-list>
+</ion-content>

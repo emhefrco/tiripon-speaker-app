@@ -1,0 +1,82 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/materials"></ion-back-button> 
+    </ion-buttons>
+    <ion-title style="font-weight: 400;">Deck details</ion-title>  
+  </ion-toolbar> 
+</ion-header>
+
+<ion-content>   
+  <ion-item lines="full" *ngIf="!doesEventHaveMaterials(eventMaterials)">
+    <ion-label>
+      <p style="font-size: 16px; color: black; font-weight: 350;">
+      No materials found
+      </p> 
+    </ion-label> 
+  </ion-item>
+
+  <ion-list *ngIf="eventMaterials">
+    <ion-item class="item" *ngFor="let material of eventMaterials" lines="inset" (click)="presentActionSheet(material)" button> 
+      <ion-ripple-effect type="bounded"></ion-ripple-effect>
+      <ion-thumbnail *ngIf="isImage(material)" slot="start">
+        <ion-img src="{{ baseUrl + imagesDir + material.filename }}"></ion-img>
+      </ion-thumbnail>   
+      <ion-thumbnail *ngIf="isPDF(material)" slot="start">
+        <ion-img src="assets/images/pdf.png"></ion-img>
+      </ion-thumbnail>  
+      <ion-thumbnail class="video-thumbnail" *ngIf="isMP4(material)" slot="start"> 
+        <ion-img src="assets/images/video-player.png"></ion-img>
+      </ion-thumbnail> 
+      <ion-thumbnail *ngIf="isOtherFile(material)" slot="start">
+        <ion-img src="assets/images/file.png"></ion-img>
+      </ion-thumbnail> 
+      <ion-thumbnail *ngIf="isPPT(material)" slot="start">
+        <ion-img src="assets/images/ppt.png"></ion-img>
+      </ion-thumbnail> 
+      <ion-thumbnail *ngIf="isWord(material)" slot="start">
+        <ion-img src="assets/images/doc.png"></ion-img>
+      </ion-thumbnail> 
+      <ion-label>
+        <p style="font-size: 16px; color: black; font-weight: 350;">{{ material.title }}</p>
+        <p style="font-size: 12px; font-weight: 300;">{{ formatSize(material.size) }}</p>
+      </ion-label>   
+      <!-- <ion-button slot="end" no-margin>
+        <ion-icon color="medium" name="more" size="small" (click)="click()"></ion-icon>  
+      </ion-button> -->
+      <!-- <ion-button fill="clear" slot="end" (click)="presentActionSheet(material.title)">
+         <ion-ripple-effect type="bounded"></ion-ripple-effect>
+        <ion-icon name="more"></ion-icon>
+      </ion-button> -->
+    </ion-item>  
+  </ion-list> 
+
+  <ion-list *ngIf="!eventMaterials">
+    <ion-item class="item" lines="none" *ngFor="let skeletonItem of skeletonItems">
+      
+      <ion-thumbnail slot="start">
+        <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+      </ion-thumbnail>   
+      <ion-label>
+        <p style="font-size: 16px; color: black; font-weight: 350;">
+          <ion-skeleton-text animated style="width: 82.5%"></ion-skeleton-text>
+        </p>
+        <p style="font-size: 12px; font-weight: 300;">
+          <ion-skeleton-text animated style="width: 15%"></ion-skeleton-text>
+        </p>
+      </ion-label>   
+    </ion-item>  
+  </ion-list> 
+
+  
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" margin-end margin-bottom>
+    <ion-fab-button color="light" (click)="onChooseFile()"> 
+      <ion-icon name="add" size="large"></ion-icon>
+    </ion-fab-button>
+    <!-- <ion-fab-button color="medium" (click)="onDownloadFile()">
+      <ion-icon name="star"></ion-icon>
+    </ion-fab-button> -->
+  </ion-fab> 
+
+</ion-content>
+

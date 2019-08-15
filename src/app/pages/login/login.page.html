@@ -1,0 +1,54 @@
+<ion-content padding>
+  <ion-grid>
+    <ion-img class="img-size" src="assets/images/tiripon_speaker_logo.png"></ion-img> 
+    
+    <!-- LOGIN FORM --> 
+    <form> 
+      <ion-item lines="none">
+        <!-- <ion-input name="email" placeholder="Email" type="email" [(ngModel)]="email">
+          <ion-icon class="icon-margin" name="mail" slot="end" value="dropchase1@gmail.com"></ion-icon>
+        </ion-input> -->
+        <ion-input name="email" placeholder="Email" type="email" [(ngModel)]="email">
+          <ion-icon class="icon-margin" name="mail" slot="end"></ion-icon>
+        </ion-input>
+      </ion-item> 
+      
+      <ion-item lines="none">
+       <!--  <ion-input name="password" placeholder="Password" type="password" [(ngModel)]="password">
+          <ion-icon class="icon-margin" name="lock" slot="end" value="Salesletter123Salesletter123"></ion-icon>
+        </ion-input> -->
+         <ion-input name="password" placeholder="Password" type="password" [(ngModel)]="password">
+          <ion-icon class="icon-margin" name="lock" slot="end"></ion-icon>
+        </ion-input> 
+      </ion-item>
+
+      <br>
+      <!-- <ion-button [disabled]="hasNoInputs()" color="medium" type="submit" expand="block" shape="round" (click)="login()">Login</ion-button> -->
+      <ion-button [disabled]="hasNoInputs()" color="medium" type="submit" expand="block" shape="round" (click)="login()">Login</ion-button>
+    </form>
+   
+    <ion-item lines="none" text-center>
+      <ion-label>OR</ion-label>
+    </ion-item>
+   
+     
+    <ion-row>
+      <!-- FACEBOOK SOCIAL LOGIN BUTTON -->
+      <ion-col size="6">
+        <ion-button class="facebook-button" expand="block" shape="round" (click)="loginWithFacebook()">
+          <ion-icon name="logo-facebook" slot="start"></ion-icon> 
+          <ion-label>FACEBOOK</ion-label>
+        </ion-button> 
+      </ion-col>
+      <!-- GOOGLE SOCIAL LOGIN BUTTON -->
+      <ion-col size="6">
+        <ion-button class="gmail-button" expand="block" shape="round" (click)="loginWithGoogle()">
+          <ion-icon name="logo-google" slot="start"></ion-icon> 
+          <ion-label>GOOGLE</ion-label>
+        </ion-button>    
+      </ion-col>  
+    </ion-row>
+   
+  </ion-grid>
+  <!-- <button onclick="window.plugins.googleplus.getSigningCertificateFingerprint(function(res){alert(res)}, function(res){console.log(res)})">get cert fingerprint (Android)</button> -->
+</ion-content>

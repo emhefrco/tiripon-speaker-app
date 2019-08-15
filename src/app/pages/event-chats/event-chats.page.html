@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button> 
+    </ion-buttons>
+    <ion-title style="font-weight: 400;">Event chats</ion-title> 
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="events" color="light"> 
+    <ion-item class="item" *ngFor="let event of events" (click)="navigateToEventPage(event)" lines="none" button>
+      <ion-ripple-effect type="bounded"></ion-ripple-effect>
+      <ion-avatar slot="start">
+        <ion-img src="{{ baseUrl + event.event_image_path }}"></ion-img>
+      </ion-avatar>
+      <ion-label>
+        <p style="color: black; font-size: 16px; font-weight: 350;"> 
+          {{ event.event_title }}
+        </p>
+        <!-- <p style="font-size: 12px; font-weight: 300;"> 
+          3 participants 
+        </p>   -->
+      </ion-label>  
+    </ion-item>    
+  </ion-list>
+</ion-content>
