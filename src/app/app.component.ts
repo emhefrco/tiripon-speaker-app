@@ -3,8 +3,7 @@ import { Component,  } from '@angular/core';
 import { Platform, NavController, LoadingController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx'; 
-import { Storage } from '@ionic/storage'; 
-import { HeaderColor } from '@ionic-native/header-color/ngx';
+import { Storage } from '@ionic/storage';  
 
 @Component({
   selector: 'app-root',
@@ -17,8 +16,7 @@ export class AppComponent {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private storage: Storage,
-    private loadingController: LoadingController,
-    private headerColor: HeaderColor
+    private loadingController: LoadingController 
   ) {
     //this.storage.set('isLogin', true);
     //this.storage.clear();
@@ -27,8 +25,7 @@ export class AppComponent {
 
   async initializeApp() {
     this.platform.ready().then(async () => {
-      this.splashScreen.hide();
-      this.headerColor.tint('#ffffff');
+      this.splashScreen.hide(); 
       this.statusBar.styleDefault();
       this.statusBar.backgroundColorByHexString('#333333');
 
