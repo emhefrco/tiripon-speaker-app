@@ -15,8 +15,6 @@
   </ion-segment>
 </ion-header>
 
-
-
 <ion-content>
 <!--   <div [ngSwitch]="profile" padding>
     <div *ngSwitchCase="'personal'"> -->
@@ -40,13 +38,13 @@
 
         <ion-item>
           <ion-label>Full Name:</ion-label>
-          <ion-label text-wrap><strong>Juan Dela Cruz</strong>
+          <ion-label text-wrap><strong>{{ user.firstname }} {{ user.middlename }} {{user.lastname}} </strong>
           </ion-label>
         </ion-item>
 
         <ion-item>
           <ion-label>Email:</ion-label>
-          <ion-label text-wrap><strong>juandelacruz@gmail.com </strong></ion-label>
+          <ion-label text-wrap><strong>{{ user.email }} </strong></ion-label>
         </ion-item>
 
         <ion-item>

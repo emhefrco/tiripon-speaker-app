@@ -34,6 +34,11 @@
       </ion-button>
     </ion-item>
   </ion-list>-->
+    <ion-label *ngIf="!hasEvents(events)">
+      <p style="font-size: 16px; color: black; font-weight: 350;">
+      No materials found
+      </p> 
+    </ion-label> 
       <ion-list *ngIf="events" color="light" no-padding>  
         <ion-item lines="full">
           <ion-label>

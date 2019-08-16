@@ -195,6 +195,29 @@ export class ApiService {
 
     return promise;
 
-  }     
+  }  
+
+  public deleteMaterial(material: any): Promise<any> {   
+    //alert(JSON.stringify(material)); return;
+    const promise = new Promise((resolve, reject) => { 
+      const url: string = this.baseUrl + this.controller + 'delete_material';
+
+      const params = new FormData();
+      params.append('user_id', material.user_id);
+      params.append('material_id', material.material_id);
+      params.append('event_id', material.event_id);
+
+      this.httpClient.post(url, params).subscribe(response => {  
+        //alert(JSON.stringify(response));
+        resolve(response);
+      }, error => {
+        alert(JSON.stringify(error));
+        reject(error);
+      });
+    });  
+
+    return promise;
+
+  }    
 
 }

@@ -211,12 +211,15 @@ export class EventMaterialsPage implements OnInit {
   }   
 
   addNewFile(file) {  
-    //alert(JSON.stringify(file));
+    //alert(JSON.stringify(this.event));
     this.eventMaterials.unshift({
-      title     : file.client_name, 
-      extension : file.extension, 
-      size      : file.size,
-      filename  : file.file_name 
+      material_id : file.material_id, 
+      event_id    : this.event.event_id,
+      user_id     : this.event.user_id,
+      title       : file.client_name, 
+      extension   : file.extension, 
+      size        : file.size,
+      filename    : file.file_name 
     }); 
   }  
 
@@ -227,6 +230,7 @@ export class EventMaterialsPage implements OnInit {
         {
           text: 'Ok',
           handler: () => {
+
             this.addNewFile(this.uploadedFile);
           }
         }
@@ -321,12 +325,11 @@ export class EventMaterialsPage implements OnInit {
           this.onDownloadFile(material);
         }
       }, {
-        text: 'Delete',
+        text: 'Remove',
         role: 'destructive',
         icon: 'trash',
-        handler: () => {
-          //this.onDownloadFile(material);
-          alert('Add delete function');
+        handler: () => { 
+          this.presentDeleteMaterialAlert(material); 
         }
       }, {
         text: 'Cancel',
@@ -376,6 +379,62 @@ export class EventMaterialsPage implements OnInit {
     });
 
   }  
+
+  deleteMaterial(material) { 
+    //alert(JSON.stringify(material)); 
+      this.presentLoading('Deleting file...').then(() => {
+
+        this.apiService.deleteMaterial(material).then(response => {
+          // alert(JSON.stringify(response)); return;
+          const hasBeenDeleted = response.status === 1;
+
+          if (hasBeenDeleted) {
+            this.dismissLoading().then(async() => { 
+              const alert = await this.alertController.create({
+                header    : 'Delete File', 
+                message   : 'File has been deleted.',
+                backdropDismiss: false,
+                buttons   : ['Ok']
+              });  
+
+              this.removeMaterial(material);
+
+              await alert.present(); 
+            });
+          } else {
+
+          }
+        });
+      });    
+  }
+
+  removeMaterial(material) {
+    this.eventMaterials = this.eventMaterials.filter(
+      eventMaterial => eventMaterial.material_id !== material.material_id
+    );   
+  }
+
+  async presentDeleteMaterialAlert(material: any) {
+    const alert = await this.alertController.create({
+      header: 'Delete File',
+      message: 'Are you sure you want to delete this file?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary' 
+        }, {
+          text: 'Ok',
+          cssClass: 'secondary',
+          handler: () => {
+            this.deleteMaterial(material);
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
 
   getMaterialUrl(material) {
     if (this.isVideo(material)) {

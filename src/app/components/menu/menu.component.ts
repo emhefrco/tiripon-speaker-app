@@ -51,7 +51,7 @@ export class MenuComponent implements OnInit {
         this.authService.logoutFacebookUserAuth();
       } else if (loginType === 'google') {
         //alert('g');
-        this.authService.logoutGoogleUserAuth();
+        this.authService.logoutAuthGoogleUser();
       } else if (loginType === 'normal') {
         //alert('n');
       } else {
