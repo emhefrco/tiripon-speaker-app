@@ -20,8 +20,7 @@ import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'; 
-import { IonicStorageModule } from '@ionic/storage'; 
-import { HeaderColor } from '@ionic-native/header-color/ngx'; 
+import { IonicStorageModule } from '@ionic/storage';  
 
 //import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 //const config: SocketIoConfig = { url: 'http://localhost:3001', options: {} };
@@ -54,8 +53,7 @@ import { FileUploadModalComponent } from './components/file-upload-modal/file-up
     FilePath,
     FileTransfer,
     GooglePlus,
-    Facebook,
-    HeaderColor,
+    Facebook, 
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent, FileUploadModalComponent]
