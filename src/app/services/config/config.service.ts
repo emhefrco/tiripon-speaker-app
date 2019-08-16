@@ -6,11 +6,10 @@ import { Injectable } from '@angular/core';
 export class ConfigService {
   public baseUrl    : string;
   public controller : string; 
-  public decksDir   : string;
 
   constructor() {
     this.baseUrl    = 'https://www.tiripon.net/';
-    // this.baseUrl    = 'http://www.sandbox.baldpuppiessolutions.com/';
+    //this.baseUrl    = 'http://www.sandbox.baldpuppiessolutions.com/';
     this.controller = 'Android_Api_Speaker/'; 
   } 
 }

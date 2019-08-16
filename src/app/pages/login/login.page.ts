@@ -141,14 +141,24 @@ export class LoginPage implements OnInit {
 
                 const options = {
                     header: 'Google Login',
-                    message: 'We could not find a <strong>Tiripon account</strong> associated with this Google ' +
+                    message: 'We couldn\'t find a <strong>Tiripon Speaker account</strong> associated with this Google ' +
                    'login. Please register an account.'
                 };
 
                 this.dismissLoading().then(() => {
-                  this.presentAlert(options).then(() => {
-                    this.setTextboxesToEmpty();
-                  }); 
+
+                  this.authService.logoutAuthGoogleUser().then(hasBeenLoggedOut => {
+
+                    if (hasBeenLoggedOut) {
+
+                      this.presentAlert(options).then(() => {
+                        this.setTextboxesToEmpty();
+                      });
+                    } else {
+                      alert(JSON.stringify('Unknown error on logging out your Google account. Please try again.'))
+                    }
+                  });
+                   
                 })
                  
               }
@@ -168,26 +178,8 @@ export class LoginPage implements OnInit {
   }  
 
   hasBeenCancelled(error): boolean {
-    if (error === 12501) {
-      return true;
-    } else {
-      return false;
-    } 
-  }
-
-  setLoggedInUserStorage(): void {
-
-  }
-
-  logoutWithGoogle(): void {
-    this.authService.logoutGoogleUserAuth().then(hasBeenLoggedOut => {
-      if (hasBeenLoggedOut) { 
-        this.navController.navigateForward('/home');
-      } 
-    });
-  }
-
-  emailIsRequiredText: string;
+    return error === 12501 ? true : false;  
+  } 
 
   hasNoInputs() {
     if (this.email === '' || this.password === '') {
@@ -195,61 +187,52 @@ export class LoginPage implements OnInit {
     }  
   }
 
-  login() {
-    let isEmailEmpty = this.email === '';
-    let isPasswordEmpty = this.password === '';
+  login() { 
 
-    /*if (isEmailEmpty) {
-      //alert(1); 
-      return;
-    } */
     const credentials = {
       email: this.email,
       password: this.password,
       loginType: 'normal'
     };
-    this.presentLoading('Logging into your account...');
-    // const credentials = {
-    //   email: 'salesletter123@gmail.com',
-    //   password: 'Salesletter123Salesletter123'
-    // }
 
-    this.apiService.getTiriponUserAccount(credentials).then(user => { 
-      if (this.doesUserExists(user)) {  
-                this.storage.set('hasLoggedIn', true).then(() => {
-                  this.storage.set('loginType', 'normal').then(() => {
-                    this.storage.set('user', user[0]).then(() => {
-                      this.dismissLoading().then(() => {
-                        this.navController.navigateForward('/home');
-                      }) 
-                    }); 
-                  }) 
-                });  
-      } else {
-        this.dismissLoading().then(() => {
-          const options = {
-            header: 'Login',
-            message: 'Incorrect username and password.'
-          } 
-          this.presentAlert(options).then(() => {
-            this.setTextboxesToEmpty();
-          }); 
-        });
-      } 
+    this.presentLoading('Logging into your account...').then(() => {
 
-    })
+      this.apiService.getTiriponUserAccount(credentials).then(user => { 
 
-  } 
+        if (this.doesUserExists(user)) {  
 
-  functionName () {
-    alert(1);
-  } 
+          this.storage.set('hasLoggedIn', true).then(() => {
+
+            this.storage.set('loginType', 'normal').then(() => {
+
+              this.storage.set('user', user[0]).then(() => {
+
+                this.dismissLoading().then(() => {
+
+                  this.navController.navigateForward('/home');
+                });
+              }); 
+            }); 
+          });  
+        } else {
+
+          this.dismissLoading().then(() => {
+
+            const options = {
+              header: 'Login',
+              message: 'Incorrect username and password.'
+            } 
+            this.presentAlert(options).then(() => {
+
+              this.setTextboxesToEmpty();
+            }); 
+          });
+        } 
+      });
+    });
+  }  
 
   doesUserExists(user) {
-    if (user.length === 1) {
-      return true;
-    } else {
-      return false;
-    }
+    return user.length === 1 ? true : false; 
   } 
 }

@@ -74,7 +74,7 @@ export class AuthService {
         resolve(data);
      
       }, error => { 
-        reject(error);
+        reject(error); 
       });    
 
     });
@@ -83,7 +83,7 @@ export class AuthService {
 
   }  
 
-  public logoutGoogleUserAuth(): Promise<any> {
+  public logoutAuthGoogleUser(): Promise<any> {
 
     const promise = new Promise((resolve, reject) => {  
       this.googlePlus.logout().then(response => {
@@ -91,8 +91,9 @@ export class AuthService {
         resolve(true); 
       }, error => {
         alert(JSON.stringify(error));
+        reject(false);
       });
-    }).catch(error => {
+    }).catch(error => { 
       alert(JSON.stringify(error));
     }); 
 

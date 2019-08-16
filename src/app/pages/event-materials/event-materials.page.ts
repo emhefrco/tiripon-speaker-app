@@ -20,7 +20,7 @@ export class EventMaterialsPage implements OnInit {
   event         : any;
   eventMaterials: any;
   //private baseUrl       : string = 'http://www.sandbox.baldpuppiessolutions.com/';
-  baseUrl: string = 'https://www.tiripon.net/';
+  baseUrl       : string = 'https://www.tiripon.net/';
   imagesDir     : string = 'assets/dashboard/images/speaker/material/images/';
   documentsDir  : string = 'assets/dashboard/images/speaker/material/documents/';
   videosDir     : string = 'assets/dashboard/images/speaker/material/videos/';
@@ -42,11 +42,7 @@ export class EventMaterialsPage implements OnInit {
     private fileOpener: FileOpener,
     private fileTransfer: FileTransfer,
     public actionSheetController: ActionSheetController 
-  ) { }
-
-  click() {
-    alert(1);
-  }
+  ) { } 
 
   ngOnInit() { 
     this.getEvent().then(event => { 
@@ -317,12 +313,20 @@ export class EventMaterialsPage implements OnInit {
         handler: () => {
           this.onOpenFile(material);
         }
-      },{
+      }, {
         text: 'Download',
         role: 'destructive',
         icon: 'download',
         handler: () => {
           this.onDownloadFile(material);
+        }
+      }, {
+        text: 'Delete',
+        role: 'destructive',
+        icon: 'trash',
+        handler: () => {
+          //this.onDownloadFile(material);
+          alert('Add delete function');
         }
       }, {
         text: 'Cancel',
