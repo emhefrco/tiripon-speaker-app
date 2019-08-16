@@ -15,10 +15,10 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-  email: string;
-  password: string;
-  loading: any;
-  loginForm: FormGroup;
+  email     : string;
+  password  : string;
+  loading   : any;
+  loginForm : FormGroup;
 
   constructor( 
     private alertController   : AlertController,
@@ -32,14 +32,15 @@ export class LoginPage implements OnInit {
     private storage           : Storage,
     private authService       : AuthService
   ) {   
+    this.setTextboxesToEmpty();
   }
 
   ngOnInit() {
-      
+    this.setTextboxesToEmpty();
   }
 
   ionViewWillEnter() {
-    //this.setTextboxesToEmpty();
+    this.setTextboxesToEmpty();
   }
 
   async presentAlert(options) {
@@ -195,10 +196,10 @@ export class LoginPage implements OnInit {
       loginType: 'normal'
     };
 
-    this.presentLoading('Logging into your account...').then(() => {
+    // this.presentLoading('Logging into your account...').then(() => {
 
       this.apiService.getTiriponUserAccount(credentials).then(user => { 
-
+        this.setTextboxesToEmpty();
         if (this.doesUserExists(user)) {  
 
           this.storage.set('hasLoggedIn', true).then(() => {
@@ -206,11 +207,10 @@ export class LoginPage implements OnInit {
             this.storage.set('loginType', 'normal').then(() => {
 
               this.storage.set('user', user[0]).then(() => {
-
-                this.dismissLoading().then(() => {
-
-                  this.navController.navigateForward('/home');
-                });
+                
+                //this.dismissLoading().then(() => {  
+                  this.navController.navigateForward('/home'); 
+                //});
               }); 
             }); 
           });  
@@ -229,7 +229,7 @@ export class LoginPage implements OnInit {
           });
         } 
       });
-    });
+    // });
   }  
 
   doesUserExists(user) {
