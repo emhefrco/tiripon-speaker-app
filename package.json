@@ -28,7 +28,7 @@
     "@ionic-native/file-path": "^5.10.0",
     "@ionic-native/file-transfer": "^5.10.0",
     "@ionic-native/google-plus": "^5.11.0",
-    "@ionic-native/header-color": "^5.11.0",
+    "@ionic-native/keyboard": "^5.12.0",
     "@ionic-native/native-storage": "^5.10.0",
     "@ionic-native/splash-screen": "^5.0.0",
     "@ionic-native/status-bar": "^5.0.0",
@@ -43,7 +43,6 @@
     "cordova-plugin-filechooser": "^1.2.0",
     "cordova-plugin-filepath": "^1.5.5",
     "cordova-plugin-googleplus": "^8.0.0",
-    "cordova-plugin-headercolor": "^1.0.0",
     "cordova-plugin-nativestorage": "^2.3.2",
     "cordova-plugin-network-information": "^2.0.2",
     "cordova-plugin-video-player": "git+https://github.com/moust/cordova-plugin-videoplayer.git",
@@ -118,7 +117,6 @@
         "REVERSED_CLIENT_ID": "631987240361-1k6b2509fakp92qvv6vc3nfut7pegptu.apps.googleusercontent.com",
         "PLAY_SERVICES_VERSION": "11.8.0"
       },
-      "cordova-plugin-headercolor": {},
       "com.moust.cordova.videoplayer": {},
       "cordova-plugin-network-information": {}
     },

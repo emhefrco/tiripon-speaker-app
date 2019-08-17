@@ -27,7 +27,7 @@ export class AppComponent {
     this.platform.ready().then(async () => {
       this.splashScreen.hide(); 
       this.statusBar.styleDefault();
-      this.statusBar.backgroundColorByHexString('#333333');
+      this.statusBar.backgroundColorByHexString('black');
 
       await this.getLoginStatus().then(hasLoggedIn => {
         //alert(isLogin);
