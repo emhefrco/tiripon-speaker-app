@@ -115,6 +115,7 @@ export class EventMaterialsPage implements OnInit {
       /* CHECK PERMISSIONS ON SAVING THE DOWNLOADED FILE */
       this.androidPermissions.checkPermission(
         this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE).then(result => { 
+
           if (!result.hasPermission) {
             this.androidPermissions.requestPermission(
               this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE).then(result => {
@@ -123,18 +124,17 @@ export class EventMaterialsPage implements OnInit {
                   return promise;
                 } 
             });
-          } 
-
-          fileTransferObject.download(file.url, directory).then((entry) => { 
-            resolve(entry);
-          }, (error) => {
-            reject(error); 
-          }); 
-        //alert(JSON.stringify(result));
+          }  
       }).catch(error => {
+
         reject(error);
-        return promise;
-        //alert(JSON.stringify(error));
+        return promise; 
+      }).finally(() => { 
+        fileTransferObject.download(file.url, directory).then((entry) => { 
+          resolve(entry);
+        }, (error) => {
+          reject(error); 
+        }); 
       });
       
       /* DOWNLOAD MATERIAL (REMOTE FILE) */
@@ -150,36 +150,43 @@ export class EventMaterialsPage implements OnInit {
     let targetDir = this.file.externalRootDirectory + 'Download/' + material.title;
  
     
-    material.url = url + material.filename; 
+    material.url = url + material.filename;  
+ 
+     this.getFileInformation(targetDir).then((entry: any) => {  
 
-    this.presentLoading('Downloading file...').then(() => {
-      // alert(targetDir); 
-      // alert(material.title); 
+        }, error => {
 
-      this.file.checkFile(targetDir, material.title).then(response => {
-        //alert(JSON.stringify(response)); 
-      }, error => {
-        targetDir += '.' + material.extension; 
 
-        this.downloadFile(material, targetDir).then((entry : any) => { 
-        
-          this.dismissLoading().then(async() => {
+          // alert('ERROR!');
+          // alert(targetDir);
+          // targetDir += '.' + material.extension;
+          //alert(JSON.stringify(error)); 
+          const hasNoExtension = error.code === 5 && error.message === 'ENCODING_ERR';
 
-            const alert = await this.alertController.create({
-              header          : 'Download', 
-              message         : 'File has been downloaded.',
-              backdropDismiss : false,
-              buttons         : ['Ok'] 
+          if (hasNoExtension) {
+            targetDir += '.' + material.extension;
+          }
+        }).finally(() => { 
+          //alert(targetDir);
+          this.presentLoading('Downloading file...').then(() => {  
+            this.downloadFile(material, targetDir).then((entry : any) => { 
+          
+              this.dismissLoading().then(async() => {
+
+                const alert = await this.alertController.create({
+                  header          : 'Download', 
+                  message         : 'File has been downloaded.',
+                  backdropDismiss : false,
+                  buttons         : ['Ok'] 
+                });
+
+                await alert.present(); 
+              }); 
+            }).catch(() => {
+              this.dismissLoading();
             });
-
-            await alert.present(); 
           }); 
-        }).catch(() => {
-          this.dismissLoading();
         });
-      }); 
-      
-    });
 
   }
 
@@ -234,11 +241,7 @@ export class EventMaterialsPage implements OnInit {
                   });
 
                   await alert.present(); 
-                });
-                  //alert('Done!');
-                    //alert(JSON.stringify(uploadedFile)); 
-                
-
+                }); 
               }); 
             }); 
           })
