@@ -137,33 +137,41 @@ export class EventMaterialsPage implements OnInit {
   onDownloadFile(material): void {
 
     const url = this.getMaterialUrl(material); 
-    const targetDir = this.file.externalRootDirectory + 'Download/' + material.title;
-
-    alert(targetDir); 
+    let targetDir = this.file.externalRootDirectory + 'Download/' + material.title;
+ 
     
     material.url = url + material.filename; 
 
     this.presentLoading('Downloading file...').then(() => {
+      // alert(targetDir); 
+      // alert(material.title); 
 
-      this.downloadFile(material, targetDir).then((entry : any) => { 
+      this.file.checkFile(targetDir, material.title).then(response => {
+        //alert(JSON.stringify(response)); 
+      }, error => {
+        targetDir += '.' + material.extension; 
+
+        this.downloadFile(material, targetDir).then((entry : any) => { 
         
-        this.dismissLoading().then(async() => {
+          this.dismissLoading().then(async() => {
 
-          const alert = await this.alertController.create({
-            header          : 'Download', 
-            message         : 'File has been downloaded.',
-            backdropDismiss : false,
-            buttons         : ['Ok'] 
-          });
+            const alert = await this.alertController.create({
+              header          : 'Download', 
+              message         : 'File has been downloaded.',
+              backdropDismiss : false,
+              buttons         : ['Ok'] 
+            });
 
-          await alert.present(); 
-        }); 
-      }).catch(error => {
+            await alert.present(); 
+          }); 
+        }).catch(error => {
 
-         this.dismissLoading().then(() => {
-           alert(JSON.stringify(error));
-         });
-      });
+           this.dismissLoading().then(() => {
+             alert(JSON.stringify(error));
+           });
+        });
+      }); 
+      
     });
 
   }
