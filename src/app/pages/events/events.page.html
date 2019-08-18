@@ -18,6 +18,16 @@
 </ion-header>
 
 <ion-content>  
+  <ion-item lines="none" *ngIf="!hasEvents(events)" style="display: flex !important;
+  text-align: center;
+justify-content: center !important;
+align-items: center !important;
+height: 80%;">
+    <ion-label>
+      <h1 style="color: black; font-weight: 400;">No events found</h1>  
+      <p><small style="font-size: 12px;">Events you've been assigned to will appear here</small></p>
+    </ion-label> 
+  </ion-item>    
   <!--<ion-item lines="none">
     <ion-searchbar placeholder="Seach all events..."></ion-searchbar>
     <ion-button color="light" shape="round">

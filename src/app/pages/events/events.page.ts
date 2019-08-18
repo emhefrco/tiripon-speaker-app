@@ -30,13 +30,11 @@ export class EventsPage implements OnInit {
       this.apiService.getEvents().then(events => {
         if (this.hasEvents(events)) {
           //alert(1);
-          this.events = events;
-          this.dismissLoading();
+          this.events = []; 
           //alert(JSON.stringify(this.events));
         } else {
           //alert(2);
-          this.events = [];
-          this.dismissLoading();
+          this.events = []; 
         } 
       });
     //}); 
@@ -50,21 +48,7 @@ export class EventsPage implements OnInit {
     } else {
       return false;
     }
-  }
-
-  async presentLoading(message) {
-    let options = {
-      message: message
-    }
-
-    this.loading = await this.loadingController.create(options);
-
-    await this.loading.present();  
   }  
-
-  async dismissLoading() { 
-    await this.loading.dismiss(); 
-  }   
 
   navigateToEventPage(event) {
     const parameters: NavigationExtras = {

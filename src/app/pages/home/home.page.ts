@@ -32,7 +32,7 @@ export class HomePage implements OnInit {
       this.apiService.getEvents().then(events => {
         if (this.hasEvents(events)) { 
           //alert(JSON.stringify(events));
-          this.events = events;  
+          this.events = [];  
         } else {  
           this.events = []; 
         } 
