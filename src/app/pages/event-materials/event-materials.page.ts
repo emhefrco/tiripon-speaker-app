@@ -121,7 +121,7 @@ export class EventMaterialsPage implements OnInit {
   onDownloadFile(material): void {
 
     const url = this.getMaterialUrl(material); 
-    const targetDir = this.file.externalRootDirectory + 'Download/' + material.title;
+    const targetDir = this.file.externalRootDirectory + 'Download/' + material.filename;
 
     // alert(targetDir); 
  
@@ -142,6 +142,11 @@ export class EventMaterialsPage implements OnInit {
 
           await alert.present(); 
         }); 
+      }).catch(error => {
+        
+         this.dismissLoading().then(() => {
+           alert(JSON.stringify(error));
+         });
       });
     });
 
