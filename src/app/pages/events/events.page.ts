@@ -25,7 +25,7 @@ export class EventsPage implements OnInit {
     this.getEvents(); 
   }
 
-  private getEvents(): any {  
+  getEvents(): any {  
     //this.presentLoading('').then(() => {
       this.apiService.getEvents().then(events => {
         if (this.hasEvents(events)) {
@@ -40,7 +40,7 @@ export class EventsPage implements OnInit {
     //}); 
   } 
 
-  private hasEvents(events): boolean {  
+  hasEvents(events): boolean {  
     const numberOfEvents: number = events.length; 
 
     if (numberOfEvents >= 1) {
