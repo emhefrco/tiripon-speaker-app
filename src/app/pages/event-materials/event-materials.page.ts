@@ -115,8 +115,22 @@ export class EventMaterialsPage implements OnInit {
       /* CHECK PERMISSIONS ON SAVING THE DOWNLOADED FILE */
       this.androidPermissions.checkPermission(
         this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE).then(result => { 
-          //alert(JSON.stringify(result));
-        this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE);
+          if (!result.hasPermission) {
+            this.androidPermissions.requestPermission(
+              this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE).then(result => {
+                if (!result.hasPermission) {
+                  reject();
+                  return promise;
+                } 
+            });
+          } 
+
+          fileTransferObject.download(file.url, directory).then((entry) => { 
+            resolve(entry);
+          }, (error) => {
+            reject(error); 
+          }); 
+        //alert(JSON.stringify(result));
       }).catch(error => {
         reject(error);
         return promise;
@@ -124,11 +138,7 @@ export class EventMaterialsPage implements OnInit {
       });
       
       /* DOWNLOAD MATERIAL (REMOTE FILE) */
-      fileTransferObject.download(file.url, directory).then((entry) => { 
-        resolve(entry);
-      }, (error) => {
-        reject(error); 
-      });       
+      
     }); 
 
     return promise;
@@ -164,11 +174,8 @@ export class EventMaterialsPage implements OnInit {
 
             await alert.present(); 
           }); 
-        }).catch(error => {
-
-           this.dismissLoading().then(() => {
-             alert(JSON.stringify(error));
-           });
+        }).catch(() => {
+          this.dismissLoading();
         });
       }); 
       
@@ -373,49 +380,63 @@ export class EventMaterialsPage implements OnInit {
     await actionSheet.present();
   }
 
+  openFile(material) {
+    /* OPEN SAVED / CACHED FILE FROM DATA DIRECTORY */
+        this.presentLoading('Opening file...').then(() => { 
+          this.file.checkFile(this.file.dataDirectory, material.filename).then(response => {  
+     
+            this.getFileInformation(this.file.dataDirectory + material.filename).then((info: any) => {
+              
+              this.dismissLoading().then(() => {                                           
+                //alert(info.localURL);
+                this.fileOpener.open(info.localURL, info.type);   
+              });
+            });
+          /* DOWNLOAD AND SAVE / CACHED FILE TO DATA DIRECTORY */
+          }, error => { 
+            //alert(2);
+            const targetDir = this.file.dataDirectory + material.filename;
+            const url = this.getMaterialUrl(material); 
+            material.url = url + material.filename; 
+
+            this.downloadFile(material, targetDir).then((entry: any) => { 
+
+              this.getFileInformation(entry.nativeURL).then((info: any) => { 
+
+                this.dismissLoading().then(() => { 
+                  // alert(info.localURL);
+                  this.fileOpener.open(info.localURL, info.type);   
+                });
+              });
+            }).catch(() => {
+              this.dismissLoading();
+            });;
+          }); 
+        });
+  }
+
   onOpenFile(material) {    
 
     const url = this.getMaterialUrl(material); 
     material.url = url + material.filename; 
 
-    /* OPEN SAVED / CACHED FILE FROM DATA DIRECTORY */
-    this.presentLoading('Opening file...').then(() => { 
-      this.file.checkFile(this.file.dataDirectory, material.filename).then(response => { 
-        //alert(1);
-        //alert('checkFile');
-// this.file.listDir(this.file.dataDirectory,'').then((result)=>{
-//         alert(JSON.stringify(result));
-// result will have an array of file objects with x
-// file details or if its a directory
-//   for(let file of result){
-//     alert(JSON.stringify(file)); 
-//   }
-// });
-        this.getFileInformation(this.file.dataDirectory + material.filename).then((info: any) => {
-          
-          this.dismissLoading().then(() => { 
-            //alert(info.localURL);
-            this.fileOpener.open(info.localURL, info.type);   
+    this.androidPermissions.checkPermission(
+      this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE).then(result => { 
+        if (!result.hasPermission) {
+          this.androidPermissions.requestPermission(
+            this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE).then(result => {
+              if (!result.hasPermission) {  
+                return;
+              } else {
+                this.openFile(material);
+              } 
           });
-        });
-      /* DOWNLOAD AND SAVE / CACHED FILE TO DATA DIRECTORY */
-      }, error => { 
-        //alert(2);
-        const targetDir = this.file.dataDirectory + material.filename;
-        const url = this.getMaterialUrl(material); 
-        material.url = url + material.filename; 
-
-        this.downloadFile(material, targetDir).then((entry: any) => { 
-
-          this.getFileInformation(entry.nativeURL).then((info: any) => { 
-
-            this.dismissLoading().then(() => { 
-              // alert(info.localURL);
-              this.fileOpener.open(info.localURL, info.type);   
-            });
-          });
-        });
-      }); 
+        } else {
+          this.openFile(material);
+        } 
+      }).catch(error => { 
+        //alert(JSON.stringify(error));
+      this.dismissLoading();
     });
 
   }  
