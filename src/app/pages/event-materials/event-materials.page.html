@@ -8,19 +8,18 @@
 </ion-header>
 
 <ion-content>   
-  <div *ngIf="!doesEventHaveMaterials(eventMaterials)" style="display: flex !important;
+  <ion-item lines="none" *ngIf="!doesEventHaveMaterials(eventMaterials)" style="display: flex !important;
   text-align: center;
 justify-content: center !important;
 align-items: center !important;
-height: 80%;"> 
-    <ion-item lines="none">  
-      <ion-label>
-        <h1 style="color: black; font-weight: 400;">No files found</h1> 
-        <p>Use the "+" button to upload</p>
-      </ion-label> 
-    </ion-item>
-  </div>
- 
+height: 80%;">
+    <ion-label>
+      <h1 style="color: black; font-weight: 400;">
+      No files found
+      </h1> 
+      <p>Use the "+" button to upload</p>
+    </ion-label> 
+  </ion-item>
 
   <ion-list *ngIf="eventMaterials">
     <ion-item class="item" *ngFor="let material of eventMaterials" lines="inset" (click)="presentActionSheet(material)" button> 
