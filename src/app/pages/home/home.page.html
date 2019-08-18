@@ -22,33 +22,49 @@ height: 80%;">
 
   <ion-item *ngIf="hasEvents(events)" lines="full">
     <ion-label>
-      <p style="font-size: 16px; color: black; font-weight: 350;">Assigned Events <span>(</span>{{ events.length }}<span>)</span></p>  
+      <p style="font-size: 16px; color: black; font-weight: 350;">Active Events <span>(</span>{{ events.length }}<span>)</span></p>  
     </ion-label> 
-  </ion-item> 
-    <ion-list *ngIf="events" color="light"> 
-      <ion-item class="item" *ngFor="let event of events" (click)="navigateToEventPage(event)" lines="none" button>
+  </ion-item>  
+      <!-- <ion-item class="item" *ngFor="let event of events" (click)="navigateToEventPage(event)" lines="none" button>
         <ion-ripple-effect type="bounded"></ion-ripple-effect>
         <ion-thumbnail slot="start">
           <ion-img src="{{ baseUrl + event.event_image_path }}"></ion-img>
         </ion-thumbnail>
         <ion-label>
-          <p style="color: black; font-size: 16px; font-weight: 350;"> 
+          <p style="color: black; font-size: 16px; font-weight: 400;"> 
             {{ event.event_title }}
           </p>
           <p style="font-size: 12px; font-weight: 300;"> 
             {{ event.province }}, {{ event.country }} 
           </p> 
-          <!-- <p style="font-size: 12px; font-weight: 300;">  
+          <p style="font-size: 12px; font-weight: 300;">  
             {{ event.start | date : "mediumDate" }} 
-          </p>  -->
+          </p> 
         </ion-label> 
-      </ion-item>    
-  </ion-list>
+      </ion-item>  -->   
+      <ion-card *ngFor="let event of events" mode="ios" (click)="navigateToEventPage(event)" button>
+        <ion-ripple-effect type="bounded"></ion-ripple-effect>
+        <ion-img src="{{ baseUrl + event.event_image_path }}"></ion-img>
+        <ion-card-header>
+          <ion-card-title> {{ event.event_title }} </ion-card-title>
+          <ion-card-subtitle>
+            <ion-badge color="medium"> 
+              <small> {{ event.event_type }} </small>
+            </ion-badge>
+          </ion-card-subtitle> 
+        </ion-card-header>
+        <ion-card-content>  
+          <p><b>Date: </b>{{ event.start | date : "EEE, MMM d y" }} at {{ event.start | date : "hh:mm a" }}</p>   
+          <p><b>Location: </b>{{ event.province }}, {{ event.country }}</p> 
+        </ion-card-content>
+      </ion-card> 
+
   <ion-item *ngIf="!events" lines="full">
     <ion-label>
       <p style="font-size: 16px; color: black; font-weight: 350;"><ion-skeleton-text animated style="width: 50%"></ion-skeleton-text></p>  
     </ion-label> 
   </ion-item> 
+
   <ion-list *ngIf="!events" color="light"> 
     <ion-item class="item" lines="none" *ngFor="let skeletonItem of skeletonItems">
       <ion-thumbnail slot="start">

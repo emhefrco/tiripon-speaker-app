@@ -30,7 +30,7 @@ export class EventsPage implements OnInit {
       this.apiService.getEvents().then(events => {
         if (this.hasEvents(events)) {
           //alert(1);
-          this.events = []; 
+          this.events = events; 
           //alert(JSON.stringify(this.events));
         } else {
           //alert(2);
