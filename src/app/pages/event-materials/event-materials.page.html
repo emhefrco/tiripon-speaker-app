@@ -8,11 +8,16 @@
 </ion-header>
 
 <ion-content>   
-  <ion-item lines="full" *ngIf="!doesEventHaveMaterials(eventMaterials)">
+  <ion-item lines="none" *ngIf="!doesEventHaveMaterials(eventMaterials)" style="display: flex !important;
+  text-align: center;
+justify-content: center !important;
+align-items: center !important;
+height: 80%;">
     <ion-label>
-      <p style="font-size: 16px; color: black; font-weight: 350;">
+      <h1 style="color: black; font-weight: 400;">
       No files found
-      </p> 
+      </h1> 
+      <p>Uploaded files will appear here</p>
     </ion-label> 
   </ion-item>
 

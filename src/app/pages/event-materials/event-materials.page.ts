@@ -104,7 +104,8 @@ export class EventMaterialsPage implements OnInit {
   } 
 
   downloadFile(file, directory) {
-
+    // alert(JSON.stringify(file));
+    // alert(JSON.stringify(directory));
     return new Promise((resolve, reject) => {
       const fileTransfer: FileTransferObject = this.fileTransfer.create();
    
@@ -345,32 +346,42 @@ export class EventMaterialsPage implements OnInit {
 
   onOpenFile(material) {    
 
-    const url = this.getMaterialUrl(material);
-    const targetDir = this.file.dataDirectory + material.title;
- 
+    const url = this.getMaterialUrl(material); 
     material.url = url + material.filename; 
 
     /* OPEN SAVED / CACHED FILE FROM DATA DIRECTORY */
-    this.presentLoading('Opening file...').then(() => {
-
-      this.file.checkFile(this.file.dataDirectory, material.title).then(response => { 
-
-        this.getFileInformation(this.file.dataDirectory + material.title).then((info: any) => {
+    this.presentLoading('Opening file...').then(() => { 
+      this.file.checkFile(this.file.dataDirectory, material.filename).then(response => { 
+        //alert(1);
+        //alert('checkFile');
+// this.file.listDir(this.file.dataDirectory,'').then((result)=>{
+//         alert(JSON.stringify(result));
+// result will have an array of file objects with x
+// file details or if its a directory
+//   for(let file of result){
+//     alert(JSON.stringify(file)); 
+//   }
+// });
+        this.getFileInformation(this.file.dataDirectory + material.filename).then((info: any) => {
           
           this.dismissLoading().then(() => { 
-
+            //alert(info.localURL);
             this.fileOpener.open(info.localURL, info.type);   
           });
         });
       /* DOWNLOAD AND SAVE / CACHED FILE TO DATA DIRECTORY */
       }, error => { 
+        //alert(2);
+        const targetDir = this.file.dataDirectory + material.filename;
+        const url = this.getMaterialUrl(material); 
+        material.url = url + material.filename; 
 
         this.downloadFile(material, targetDir).then((entry: any) => { 
 
           this.getFileInformation(entry.nativeURL).then((info: any) => { 
 
             this.dismissLoading().then(() => { 
-
+              // alert(info.localURL);
               this.fileOpener.open(info.localURL, info.type);   
             });
           });

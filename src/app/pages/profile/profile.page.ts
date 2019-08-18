@@ -24,7 +24,7 @@ export class ProfilePage implements OnInit {
     this.profileType = 'personal';
     this.storage.get('user').then(user => {
       this.user = user;
-      alert(JSON.stringify(user));
+      // alert(JSON.stringify(user));
     });
   }
 
