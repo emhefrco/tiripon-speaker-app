@@ -11,6 +11,7 @@ export class ProfilePage implements OnInit {
   profileType : string;
   user        : any;
   address     : any;
+  company     : any;
 
   constructor(
     private apiService : ApiService,
@@ -65,5 +66,21 @@ export class ProfilePage implements OnInit {
     } else {
       return false;
     } 
-  } 
+  }  
+
+  hasCompanyName() : boolean {
+    return this.user.company_name !== null ? true : false;  
+  }    
+
+  hasCompanyAddress() : boolean {
+    return this.user.company_address !== null ? true : false; 
+  }     
+
+  hasCompanyTIN() : boolean {
+    return this.user.tax_identification_number !== null ? true : false; 
+  }   
+
+  hasCompanyVAT() : boolean {
+    return this.user.vat_register === '1' ? true : false; 
+  }     
 }

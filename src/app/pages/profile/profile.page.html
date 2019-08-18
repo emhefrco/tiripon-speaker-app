@@ -136,41 +136,41 @@
     <!-- <div *ngSwitchCase="'company'"> --> 
     <div *ngSwitchCase="'company'">
       <ion-list lines="none">
-<!--         <ion-item>
+        <ion-item>
           <ion-label>Name:</ion-label>
-          <ion-label *ngIf="user.companyName !== '' && user.companyName !== null" text-wrap>
-            <strong>{{user.companyName}}</strong></ion-label>
-          <ion-label *ngIf="user.companyName === '' || user.companyName === null" text-wrap>
+          <ion-label *ngIf="hasCompanyName()" text-wrap>
+            <strong> {{ user.company[0].company_name }} </strong></ion-label>
+          <ion-label *ngIf="!hasCompanyName()" text-wrap>
             <p>Not Set</p>
           </ion-label>
         </ion-item>
 
         <ion-item>
-          <ion-label>Full Address:</ion-label>
-          <ion-label *ngIf="user.companyAddress !== '' && user.companyAddress !== null" text-wrap>
-            <strong>{{userData.companyAddress}}</strong></ion-label>
-          <ion-label *ngIf="user.companyAddress === '' || user.companyAddress === null" text-wrap>
+          <ion-label>Complete Address:</ion-label>
+          <ion-label *ngIf="hasCompanyAddress()" text-wrap>
+            <strong> {{ user.company_address }} </strong></ion-label>
+          <ion-label *ngIf="!hasCompanyAddress()" text-wrap>
             <p>Not Set</p>
           </ion-label>
         </ion-item>
 
         <ion-item>
           <ion-label>TIN:</ion-label>
-          <ion-label *ngIf="user.companyTIN !== '' && user.companyTIN !== null" text-wrap>
-            <strong>{{userData.companyTIN}}</strong>
+          <ion-label *ngIf="hasCompanyTIN()" text-wrap>
+            <strong> {{ user.tax_identification_number }} </strong>
           </ion-label>
-          <ion-label *ngIf="user.companyTIN === '' || user.companyTIN === null" text-wrap>
+          <ion-label *ngIf="!hasCompanyTIN()" text-wrap>
             <p>Not Set</p>
           </ion-label>
         </ion-item>
 
         <ion-item>
           <ion-label>Vat Registed:</ion-label>
-          <ion-label *ngIf="user.companyVatRegistered === '1'" text-wrap><strong>Yes</strong></ion-label>
-          <ion-label *ngIf="user.companyVatRegistered === '0'" text-wrap>
-            <p>No</p>
+          <ion-label *ngIf="hasCompanyVAT()" text-wrap><strong> {{ user.vat_register }} </strong></ion-label>
+          <ion-label *ngIf="!hasCompanyVAT()" text-wrap>
+            <p>Not set</p>
           </ion-label>
-        </ion-item> -->
+        </ion-item>
       </ion-list>
 
 <!--       <ion-button class="no-shadow-button" shape="round" expand="full" name="update" (click)="openCompanyEdit()">Update
