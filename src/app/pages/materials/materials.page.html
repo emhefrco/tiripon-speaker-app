@@ -8,45 +8,30 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>    
-  <!-- <ion-item lines="none">
-    <ion-icon name="document" slot="start"></ion-icon>
+<ion-content>     
+  <ion-item lines="none" *ngIf="!hasEvents(events)" style="display: flex !important;
+  text-align: center;
+justify-content: center !important;
+align-items: center !important;
+height: 80%;">
     <ion-label>
-      <ion-text><h2>Camsur Techno Fair.pdf</h2></ion-text>
-        <small style="color: #999">123 kb</small>  
+      <h1 style="color: black; font-weight: 400;">
+      No decks found
+      </h1>  
     </ion-label> 
-    
-  </ion-item>    -->
-  <!--<ion-list color="light">
-    <ion-item *ngIf="material" lines="none">
-      <ion-thumbnail slot="start">
-        <ion-img src="{{ material.url }}"></ion-img>
-      </ion-thumbnail>
-      <ion-label>
-        <p> {{ material.fileName }} </p>
-        <ion-text color="medium">
-          <small> {{ material.size }} kb </small>
-        </ion-text>
-      </ion-label>
-      <ion-button (click)="onDownloadFile(material)" fill="clear" slot="end">
-        <ion-ripple-effect></ion-ripple-effect>
-        <ion-icon color="primary" name="cloud-download" size="large"></ion-icon>
-      </ion-button>
-    </ion-item>
-  </ion-list>-->
-    <ion-label *ngIf="!hasEvents(events)">
-      <p style="font-size: 16px; color: black; font-weight: 350;">
-      No materials found
-      </p> 
-    </ion-label> 
+  </ion-item>   
+
+
+  <ion-item *ngIf="hasEvents(events)" lines="full">
+    <ion-label>
+      <p *ngIf="events.length === 1" style="color: black; font-size: 16px; font-weight: 350;">{{ events.length }} event found</p>
+      <p *ngIf="events.length > 1" style="color: black; font-size: 16px; font-weight: 350;">{{ events.length }} events found</p>
+      <p style="font-size: 12px; font-weight: 300;">Select an event to upload files</p>
+    </ion-label>
+  </ion-item> 
+
       <ion-list *ngIf="events" color="light" no-padding>  
-        <ion-item lines="full">
-          <ion-label>
-            <p *ngIf="events.length === 1" style="color: black; font-size: 16px; font-weight: 350;">{{ events.length }} event found</p>
-            <p *ngIf="events.length > 1" style="color: black; font-size: 16px; font-weight: 350;">{{ events.length }} events found</p>
-            <p style="font-size: 12px; font-weight: 300;">Select an event to upload files</p>
-          </ion-label>
-        </ion-item> 
+        
         <ion-item class="item" lines="full" *ngFor="let event of events" (click)="navigateToEventMaterialsPage(event)" button>
           <ion-ripple-effect type="bounded"></ion-ripple-effect>
           <ion-thumbnail slot="start">

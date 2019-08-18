@@ -59,10 +59,10 @@ export class MaterialsPage implements OnInit {
   }  
 
   getEvents(): void {   
-    this.apiService.getEvents().then(events => {
+    this.apiService.getEvents().then(events => { 
       if (this.hasEvents(events)) { 
         //alert(JSON.stringify(events));
-        this.events = events;  
+        this.events = events;   
       } else { 
         this.events = []; 
       } 
