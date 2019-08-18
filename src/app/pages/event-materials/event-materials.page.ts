@@ -10,6 +10,7 @@ import { FilePath } from '@ionic-native/file-path/ngx';
 import { FileTransfer, FileTransferObject, FileUploadOptions } from '@ionic-native/file-transfer/ngx';
 import { ActionSheetController } from '@ionic/angular';
 import { VideoPlayer } from '@ionic-native/video-player/ngx';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 
 @Component({
   selector: 'app-event-materials',
@@ -41,7 +42,8 @@ export class EventMaterialsPage implements OnInit {
     private filePath: FilePath,
     private fileOpener: FileOpener,
     private fileTransfer: FileTransfer,
-    public actionSheetController: ActionSheetController 
+    public actionSheetController: ActionSheetController,
+    private androidPermissions: AndroidPermissions 
   ) { } 
 
   ngOnInit() { 
@@ -103,28 +105,42 @@ export class EventMaterialsPage implements OnInit {
     await this.loading.dismiss(); 
   } 
 
-  downloadFile(file, directory) {
-    // alert(JSON.stringify(file));
-    // alert(JSON.stringify(directory));
-    return new Promise((resolve, reject) => {
-      const fileTransfer: FileTransferObject = this.fileTransfer.create();
-   
-      fileTransfer.download(file.url, directory).then((entry) => {
-        //alert(JSON.stringify(entry));
+  downloadFile(file, directory) : Promise<any> { 
+
+    const promise = new Promise((resolve, reject) => {
+      const fileTransferObject: FileTransferObject = this.fileTransfer.create();
+       
+      // alert(JSON.stringify(this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE)));
+      
+      /* CHECK PERMISSIONS ON SAVING THE DOWNLOADED FILE */
+      this.androidPermissions.checkPermission(
+        this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE).then(result => { 
+          //alert(JSON.stringify(result));
+        this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE);
+      }).catch(error => {
+        reject(error);
+        return promise;
+        //alert(JSON.stringify(error));
+      });
+      
+      /* DOWNLOAD MATERIAL (REMOTE FILE) */
+      fileTransferObject.download(file.url, directory).then((entry) => { 
         resolve(entry);
       }, (error) => {
-        reject(error);
+        reject(error); 
       });       
     }); 
+
+    return promise;
   }  
 
   onDownloadFile(material): void {
 
     const url = this.getMaterialUrl(material); 
-    const targetDir = this.file.externalRootDirectory + 'Download/' + material.filename;
+    const targetDir = this.file.externalRootDirectory + 'Download/' + material.title;
 
-    // alert(targetDir); 
- 
+    alert(targetDir); 
+    
     material.url = url + material.filename; 
 
     this.presentLoading('Downloading file...').then(() => {
@@ -143,7 +159,7 @@ export class EventMaterialsPage implements OnInit {
           await alert.present(); 
         }); 
       }).catch(error => {
-        
+
          this.dismissLoading().then(() => {
            alert(JSON.stringify(error));
          });
