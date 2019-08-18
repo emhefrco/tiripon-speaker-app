@@ -196,7 +196,7 @@ export class LoginPage implements OnInit {
       loginType: 'normal'
     };
 
-    // this.presentLoading('Logging into your account...').then(() => {
+    this.presentLoading('Logging into your account...').then(() => {
 
       this.apiService.getTiriponUserAccount(credentials).then(user => { 
         this.setTextboxesToEmpty();
@@ -208,9 +208,9 @@ export class LoginPage implements OnInit {
 
               this.storage.set('user', user[0]).then(() => {
                 
-                //this.dismissLoading().then(() => {  
+                this.dismissLoading().then(() => {  
                   this.navController.navigateForward('/home'); 
-                //});
+                });
               }); 
             }); 
           });  
@@ -229,7 +229,7 @@ export class LoginPage implements OnInit {
           });
         } 
       });
-    // });
+    });
   }  
 
   doesUserExists(user) {
