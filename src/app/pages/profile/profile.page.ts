@@ -8,12 +8,13 @@ import { Storage } from '@ionic/storage';
   styleUrls: ['./profile.page.scss'],
 })
 export class ProfilePage implements OnInit {
-  profileType: string;
-  user: any;
+  profileType : string;
+  user        : any;
+  address     : any;
 
   constructor(
-    private apiService        : ApiService,
-    private storage           : Storage,
+    private apiService : ApiService,
+    private storage    : Storage,
   ) {
     this.profileType = 'personal';
   }
@@ -22,7 +23,7 @@ export class ProfilePage implements OnInit {
     this.profileType = 'personal';
     this.storage.get('user').then(user => {
       this.user = user;
-      // alert(JSON.stringify(user));
+      alert(JSON.stringify(user));
     });
   }
 
@@ -45,6 +46,24 @@ export class ProfilePage implements OnInit {
       return false;
     }
   }
- 
 
+  hasCompleteAddress() : boolean {
+    const hasStreet   : boolean = this.user.street   !== null;
+    const hasCity     : boolean = this.user.city     !== null; 
+    const hasProvince : boolean = this.user.province !== null; 
+    const hasZipcode  : boolean = this.user.zipcode  !== null; 
+    const hasCountry  : boolean = this.user.country  !== null;
+
+    if (
+      hasStreet   &&
+      hasCity     &&
+      hasProvince &&  
+      hasZipcode  &&
+      hasCountry 
+    ) {
+      return true;
+    } else {
+      return false;
+    } 
+  } 
 }

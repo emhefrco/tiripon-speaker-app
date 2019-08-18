@@ -103,14 +103,14 @@
           </ion-label>
         </ion-item>
 
-        <!-- <ion-item>
-          <ion-label>Full Address:</ion-label>
-          <ion-label *ngIf="isFullAddress === true" text-wrap><strong>{{user.street}} {{user.province}}
+        <ion-item>
+          <ion-label>Complete Address:</ion-label>
+          <ion-label *ngIf="hasCompleteAddress()" text-wrap><strong>{{user.street}} {{user.province}}
               {{user.city}} {{user.zipCode}} {{user.country}}</strong></ion-label>
-          <ion-label *ngIf="isFullAddress === false" text-wrap>
+          <ion-label *ngIf="!hasCompleteAddress()" text-wrap>
             <p>Not Set</p>
           </ion-label>
-        </ion-item> -->
+        </ion-item>
       </ion-list>
 
       <br>
