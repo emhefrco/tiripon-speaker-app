@@ -28,7 +28,7 @@ export class HomePage implements OnInit {
   //   this.getEvents();
   // }
 
-  private getEvents(): any {   
+  getEvents(): any {   
       this.apiService.getEvents().then(events => {
         if (this.hasEvents(events)) { 
           //alert(JSON.stringify(events));
@@ -39,7 +39,7 @@ export class HomePage implements OnInit {
       }); 
   } 
 
-  private hasEvents(events): boolean {  
+  hasEvents(events): boolean {  
     const numberOfEvents: number = events.length; 
 
     if (numberOfEvents >= 1) {
