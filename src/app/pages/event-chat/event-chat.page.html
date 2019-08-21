@@ -24,7 +24,7 @@
     </ion-grid> 
   </ion-segment>
 
-<ion-content> 
+<ion-content #content> 
   
   <div [ngSwitch]="chatType" padding>
     
@@ -46,7 +46,7 @@
     </div>
     <div *ngSwitchCase="chatType">
       <!-- <h1>Direct Messages</h1> -->
-          <div *ngSwitchCase="'direct-messages'">
+    <div *ngSwitchCase="'direct-messages'">
       <ion-list *ngIf="participants" no-margin no-padding>
         <ion-item *ngFor="let participant of participants" lines="none" no-margin no-padding (click)="navigateToDirectMessagePage(participant)">
           <ion-avatar slot="start" >
@@ -61,16 +61,26 @@
     </div>
   </div>
 </ion-content>
-<ion-footer no-border>
+<ion-footer>
   <div [ngSwitch]="chatType" padding>
     <div *ngSwitchCase="'general'">
-      <!-- <h1>General</h1> --> 
-      <ion-item> 
-        <ion-input type="text" name="" [(ngModel)]="message" placeholder="Send a message"></ion-input>
-        <ion-icon name="paper-plane" (click)="sendMessage()" button>
-          <ion-ripple-effect></ion-ripple-effect>
-        </ion-icon>
-      </ion-item>
+      <!-- <h1>General</h1> -->  
+      <ion-grid>
+        <ion-row class="ion-align-items-center">
+          <ion-col size="10"> 
+            <ion-item class="send-message-item" lines="none">
+              <ion-input class="send-message-item" type="text" name="" [(ngModel)]="message" placeholder="Type a message" #input></ion-input>
+            </ion-item>
+            
+          </ion-col>
+          <ion-col size="2">
+            <ion-button color="light" expand="full" (click)="sendMessageToGroup()" shape="round">Send</ion-button>
+             <!-- <ion-icon name="paper-plane" (click)="sendMessage()" button>
+              <ion-ripple-effect></ion-ripple-effect>
+            </ion-icon> -->
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </div>
     <div *ngSwitchCase="'direct-messages'">
       <!-- <h1>Direct Messages</h1> -->

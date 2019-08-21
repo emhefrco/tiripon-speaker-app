@@ -33,7 +33,7 @@ export class AppComponent {
         //alert(isLogin);
         if (hasLoggedIn) {
           //alert(1);
-          this.navController.navigateForward('/home');
+          this.navController.navigateForward('/event-chats');
         } else {
           //alert(1);
           this.navController.navigateForward('/login');

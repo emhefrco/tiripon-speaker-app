@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, NgZone } from '@angular/core';
 import * as io from 'socket.io-client';
 import { ApiService } from '../../services/api.service';
 import { NavigationExtras } from '@angular/router';
@@ -17,8 +17,13 @@ export class EventChatPage implements OnInit {
   previousMessage: any;
   participants: any = [];
   groupChatMessages: any = [];
-
-  constructor(private apiService: ApiService, private navController: NavController) {
+  @ViewChild('content') private content: any;
+ 
+  constructor(
+    private apiService: ApiService, 
+    private navController: NavController,
+    private ngZone: NgZone
+    ) {
     this.socket = io('https://tiripon.herokuapp.com:443');
     this.socket.on('connect',() => {
       //alert('connected from server');
@@ -29,24 +34,34 @@ export class EventChatPage implements OnInit {
         this.previousMessage = '';
       }   
     });
+
+    this.participants = [];
     //alert(JSON.stringify(this.socket));
   }
 
   ngOnInit() {
-    this.getParticipants();
+    // this.getParticipants();
     this.getGroupChatMessages();
     // this.socket.on('new message', function(data) {
     //   alert(1);
     // });
   }
 
-  private sendMessage(): void {
-    const emptyMessage = '';
+  sendMessageToGroup(options): void { 
+ 
+    // alert(1);
+    const empty = '';
     this.previousMessage = this.message;
     //alert(this.message);
-    this.socket.emit('send message', this.message); 
-    this.messages.push(this.message); 
-    this.message = emptyMessage; 
+    // this.socket.emit('send message', this.message); 
+    this.groupChatMessages.push({'message':this.message}); 
+    this.message = empty; 
+    this.ngZone.run(() => { 
+      setTimeout(() => {
+        this.content.scrollToBottom(300); 
+
+      });
+    });
   }
 
   segmentChanged(ev: any) {
@@ -59,15 +74,12 @@ export class EventChatPage implements OnInit {
         if (this.hasParticipants(participants)) {
           //alert(1);
           this.participants = participants;  
-        } else {
-          //alert(2);
-          this.participants = []; 
         } 
       });
     //}); 
   } 
 
-  private hasParticipants(participants): boolean {  
+  hasParticipants(participants): boolean {  
     const numberOfParticipants: number = participants.length; 
 
     if (numberOfParticipants >= 1) {
@@ -82,7 +94,7 @@ export class EventChatPage implements OnInit {
         if (this.hasParticipants(groupChatMessages)) {
           //alert(1);
           this.groupChatMessages = groupChatMessages; 
-          //alert(JSON.stringify(this.groupChatMessages));
+          console.log(JSON.stringify(this.groupChatMessages));
         } else {
           //alert(2);
           this.groupChatMessages = []; 
