@@ -9,7 +9,7 @@
 
 <ion-content>
   <ion-list *ngIf="events" color="light"> 
-    <ion-item class="item" *ngFor="let event of events" (click)="navigateToEventPage(event)" lines="none" button>
+    <ion-item class="item" *ngFor="let event of events" (click)="navigateToEventPage(event)" lines="full" button>
       <ion-ripple-effect type="bounded"></ion-ripple-effect>
       <ion-avatar slot="start">
         <ion-img src="{{ baseUrl + event.event_image_path }}"></ion-img>

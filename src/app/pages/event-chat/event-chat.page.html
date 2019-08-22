@@ -38,12 +38,28 @@
             <ion-img src="{{ profilePicDir + message.profile_path }}"></ion-img> 
           </ion-avatar>
           <ion-label>
-            <h3>{{ message.firstname }} {{ message.lastname }}</h3>
-            <small>{{ message.message }}</small>
+            <h2>{{ message.firstname }} {{ message.lastname }}</h2>
+            <p>{{ message.message }}</p>
           </ion-label>
-        </ion-item>
+        </ion-item> 
       </ion-list>
+
+      <ion-list *ngIf="groupChatMessages.length === 0" no-margin no-padding>
+        <ion-item *ngFor="let skeletionItem of skeletonItems" lines="none" no-margin no-padding>
+          <ion-avatar slot="start">
+            <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text> 
+          </ion-avatar> 
+          <ion-label>
+            <ion-skeleton-text animated style="width: 75%"></ion-skeleton-text>
+            <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+          </ion-label>
+        </ion-item> 
+      </ion-list>  
     </div>
+
+
+
+
     <div *ngSwitchCase="chatType">
       <!-- <h1>Direct Messages</h1> -->
     <div *ngSwitchCase="'direct-messages'">
@@ -69,12 +85,12 @@
         <ion-row class="ion-align-items-center">
           <ion-col size="10"> 
             <ion-item class="send-message-item" lines="none">
-              <ion-input class="send-message-item" type="text" name="" [(ngModel)]="message" placeholder="Type a message" #input></ion-input>
+              <ion-input class="send-message-item" type="text" name="" [(ngModel)]="groupChatMessageText" placeholder="Type a message" #input></ion-input>
             </ion-item>
             
           </ion-col>
           <ion-col size="2">
-            <ion-button color="light" expand="full" (click)="sendMessageToGroup()" shape="round">Send</ion-button>
+            <ion-button color="light" expand="full" (click)="sendGroupChatMessage()" shape="round">Send</ion-button>
              <!-- <ion-icon name="paper-plane" (click)="sendMessage()" button>
               <ion-ripple-effect></ion-ripple-effect>
             </ion-icon> -->

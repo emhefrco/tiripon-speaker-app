@@ -44,14 +44,14 @@ export class EventChatsPage implements OnInit {
     }
   }
 
-  navigateToEventPage(event) {
+  async navigateToEventPage(event) {
     const parameters: NavigationExtras = {
       queryParams: event
     }; 
 
     //alert(JSON.stringify(event));
 
-    this.navController.navigateForward(['/event-chat'], parameters);
+    await this.navController.navigateForward(['/event-chat'], parameters);
   }
 
 }

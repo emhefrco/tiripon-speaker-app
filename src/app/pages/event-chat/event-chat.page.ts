@@ -15,7 +15,7 @@ import { ConfigService } from '../../services/config/config.service';
 export class EventChatPage implements OnInit {
   socket            : any;
   chatType          : string;
-  message           : string;
+  groupChatMessageText  : string;
   messages          : any[];
   previousMessage   : any;
   participants      : any = [];
@@ -24,6 +24,7 @@ export class EventChatPage implements OnInit {
   event             : any;
   baseUrl           : string; 
   profilePicDir     : string;
+  skeletonItems     : number[];
 
   @ViewChild('content') private content: any;
  
@@ -37,10 +38,12 @@ export class EventChatPage implements OnInit {
   ) {
     this.chatType          = 'general';
     this.groupChatMessages = []; 
+    this.groupChatMessageText = '';
     this.baseUrl           = this.configService.baseUrl;
 
     this.profilePicDir     = this.baseUrl + 'assets/profile-picture/';
-    alert(JSON.stringify(this.profilePicDir));
+    //alert(JSON.stringify(this.profilePicDir));
+    this.skeletonItems = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
     this.getUser();
     this.getEvent();
@@ -50,7 +53,7 @@ export class EventChatPage implements OnInit {
     // this.socket = io('https://tiripon.herokuapp.com:443');
     this.socket = io('http://192.168.1.11:3000');
     this.socket.on('connect', () => {
-      alert('connected from the server.');
+      //alert('connected from the server.');
     }); 
 
     this.socket.emit('join group chat', {
@@ -58,8 +61,28 @@ export class EventChatPage implements OnInit {
     });
 
     this.socket.on('get group chat messages', groupChatMessages => {
-      this.groupChatMessages = groupChatMessages;
-      alert(JSON.stringify(this.groupChatMessages));
+      
+      this.ngZone.run(() => { 
+        this.groupChatMessages = groupChatMessages;
+        setTimeout(() => { 
+          this.content.scrollToBottom(300); 
+        });
+      });
+      //alert(JSON.stringify(this.groupChatMessages));
+    });
+
+    this.socket.on('get saved group chat message', groupChatMessage => {
+      // alert(JSON.stringify(groupChatMessage));
+      groupChatMessage.firstname = this.user.firstname;
+      groupChatMessage.lastname = this.user.lastname;
+      groupChatMessage.profile_path = this.user.profile_path;
+      //alert(JSON.stringify(groupChatMessage));
+      this.ngZone.run(() => {  
+        this.groupChatMessages.push(groupChatMessage);
+        setTimeout(() => { 
+          this.content.scrollToBottom(300); 
+        });
+      });
     });
 
     // // alert(1);
@@ -85,26 +108,37 @@ export class EventChatPage implements OnInit {
     }); 
   }   
 
+
   getEvent() {  
     this.route.queryParams.subscribe(event => {  
       this.event = event;
     });   
   }  
 
-  sendMessageToGroup(options): void { 
- 
-    // alert(1);
-    const empty = '';
-    this.previousMessage = this.message;
-    //alert(this.message);
-    // this.socket.emit('send message', this.message); 
-    this.groupChatMessages.push({'message':this.message}); 
-    this.message = empty; 
-    this.ngZone.run(() => { 
-      setTimeout(() => {
-        this.content.scrollToBottom(300); 
-      });
-    });
+
+  sendGroupChatMessage(): void { 
+    
+    const groupChatMessage : object = {
+      'event_id'       : this.event.event_id,
+      'user_id'        : this.user.user_id,
+      'designation_id' : 3,
+      'message'        : this.groupChatMessageText
+    }
+
+    this.socket.emit('send group chat message', groupChatMessage);  
+    this.groupChatMessageText = '';
+    // this.previousMessage = this.groupChatMessage;
+    // //alert(this.message);
+    // // this.socket.emit('send message', this.message); 
+    // this.groupChatMessages.push({
+    //   'message': 
+    // }}); 
+    // this.groupChatMessage = empty; 
+    // this.ngZone.run(() => { 
+    //   setTimeout(() => {
+    //     this.content.scrollToBottom(300); 
+    //   });
+    // });
   }
 
   segmentChanged(ev: any) {
@@ -137,7 +171,7 @@ export class EventChatPage implements OnInit {
         if (this.hasParticipants(groupChatMessages)) {
           //alert(1);
           this.groupChatMessages = groupChatMessages; 
-          console.log(JSON.stringify(this.groupChatMessages));
+          //console.log(JSON.stringify(this.groupChatMessages));
         } else {
           //alert(2);
           this.groupChatMessages = []; 
