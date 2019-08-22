@@ -2,7 +2,10 @@ import { Component, OnInit, ViewChild, NgZone } from '@angular/core';
 import * as io from 'socket.io-client';
 import { ApiService } from '../../services/api.service';
 import { NavigationExtras } from '@angular/router';
+import { Storage } from '@ionic/storage';
 import { AlertController, LoadingController, NavController } from '@ionic/angular';
+import { ActivatedRoute } from '@angular/router';
+import { ConfigService } from '../../services/config/config.service';
 
 @Component({
   selector: 'app-event-chat',
@@ -10,42 +13,83 @@ import { AlertController, LoadingController, NavController } from '@ionic/angula
   styleUrls: ['./event-chat.page.scss'],
 })
 export class EventChatPage implements OnInit {
-  socket: any;
-  chatType: string = 'general';
-  message: string;
-  messages: any = [];
-  previousMessage: any;
-  participants: any = [];
-  groupChatMessages: any = [];
+  socket            : any;
+  chatType          : string;
+  message           : string;
+  messages          : any[];
+  previousMessage   : any;
+  participants      : any = [];
+  groupChatMessages : any = [];
+  user              : any;
+  event             : any;
+  baseUrl           : string; 
+  profilePicDir     : string;
+
   @ViewChild('content') private content: any;
  
   constructor(
-    private apiService: ApiService, 
-    private navController: NavController,
-    private ngZone: NgZone
-    ) {
-    this.socket = io('https://tiripon.herokuapp.com:443');
-    this.socket.on('connect',() => {
-      //alert('connected from server');
-    });
-    this.socket.on('new message', newMessage => {   
-      if (this.previousMessage !== newMessage.msg) {
-        this.messages.push(newMessage.msg);  
-        this.previousMessage = '';
-      }   
-    });
+    private apiService    : ApiService, 
+    private navController : NavController,
+    private ngZone        : NgZone,
+    private storage       : Storage,
+    private route         : ActivatedRoute,
+    private configService : ConfigService
+  ) {
+    this.chatType          = 'general';
+    this.groupChatMessages = []; 
+    this.baseUrl           = this.configService.baseUrl;
 
-    this.participants = [];
-    //alert(JSON.stringify(this.socket));
+    this.profilePicDir     = this.baseUrl + 'assets/profile-picture/';
+    alert(JSON.stringify(this.profilePicDir));
+
+    this.getUser();
+    this.getEvent();
   }
 
   ngOnInit() {
-    // this.getParticipants();
-    this.getGroupChatMessages();
-    // this.socket.on('new message', function(data) {
-    //   alert(1);
+    // this.socket = io('https://tiripon.herokuapp.com:443');
+    this.socket = io('http://192.168.1.11:3000');
+    this.socket.on('connect', () => {
+      alert('connected from the server.');
+    }); 
+
+    this.socket.emit('join group chat', {
+      'event_id': this.event.event_id
+    });
+
+    this.socket.on('get group chat messages', groupChatMessages => {
+      this.groupChatMessages = groupChatMessages;
+      alert(JSON.stringify(this.groupChatMessages));
+    });
+
+    // // alert(1);
+    // this.socket.on('new message', newMessage => {   
+    //   if (this.previousMessage !== newMessage.msg) {
+    //     this.messages.push(newMessage.msg);  
+    //     this.previousMessage = '';
+    //   }   
     // });
+
+    // this.participants = [];
+    // // this.getParticipants();
+    // //this.getGroupChatMessages();
+    // // this.socket.on('new message', function(data) {
+    // //   alert(1);
+    // // }); 
   }
+
+  getUser() {  
+    this.storage.get('user').then(user => {
+      this.user = user;
+      //alert(JSON.stringify(this.user));
+    }); 
+  }   
+
+  getEvent() {  
+    this.route.queryParams.subscribe(event => {  
+      this.event = event;
+    });   
+  }  
 
   sendMessageToGroup(options): void { 
  
@@ -59,7 +103,6 @@ export class EventChatPage implements OnInit {
     this.ngZone.run(() => { 
       setTimeout(() => {
         this.content.scrollToBottom(300); 
-
       });
     });
   }
@@ -110,5 +153,16 @@ export class EventChatPage implements OnInit {
     //alert(JSON.stringify(event));
 
     this.navController.navigateForward(['/direct-message'], parameters); 
+  }
+
+  hasUserProfilePic(profilePath) { 
+    //alert(profilePath)
+    if (profilePath !== null) {
+      // alert(1);
+      return true;
+    } else {
+      // alert(2);
+      return false;
+    }
   }
 }

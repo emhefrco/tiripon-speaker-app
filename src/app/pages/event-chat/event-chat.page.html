@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/home"></ion-back-button> 
     </ion-buttons>
-    <ion-title style="font-weight: 400;">Chat Messages<small> (Speaker)</small></ion-title>
+    <ion-title style="font-weight: 400;">Chat Messages</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -28,18 +28,18 @@
   
   <div [ngSwitch]="chatType" padding>
     
-    <div *ngSwitchCase="'general'">
-      <ion-item lines="none">
-          <ion-label text-center><small>Today</small></ion-label>
-      </ion-item>
+    <div *ngSwitchCase="'general'"> 
       <ion-list *ngIf="groupChatMessages" no-margin no-padding>
-        <ion-item *ngFor="let groupChatMessage of groupChatMessages" lines="none" no-margin no-padding>
-          <ion-avatar slot="start">
+        <ion-item *ngFor="let message of groupChatMessages" lines="none" no-margin no-padding>
+          <ion-avatar slot="start" *ngIf="!hasUserProfilePic(message.profile_path)">
             <ion-img src="assets/images/avatar.png"></ion-img> 
           </ion-avatar>
+          <ion-avatar slot="start" *ngIf="hasUserProfilePic(message.profile_path)">
+            <ion-img src="{{ profilePicDir + message.profile_path }}"></ion-img> 
+          </ion-avatar>
           <ion-label>
-            <h3>User: {{ groupChatMessage.user_id }}</h3>
-            <small>{{ groupChatMessage.message }}</small>
+            <h3>{{ message.firstname }} {{ message.lastname }}</h3>
+            <small>{{ message.message }}</small>
           </ion-label>
         </ion-item>
       </ion-list>
