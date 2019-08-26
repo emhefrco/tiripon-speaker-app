@@ -8,8 +8,8 @@ export class ConfigService {
   public controller : string; 
 
   constructor() {
-    this.baseUrl    = 'https://www.tiripon.net/';
-    //this.baseUrl    = 'http://www.sandbox.baldpuppiessolutions.com/';
+    //this.baseUrl    = 'https://www.tiripon.net/';
+    this.baseUrl    = 'http://www.sandbox.baldpuppiessolutions.com/';
     this.controller = 'Android_Api_Speaker/'; 
   } 
 }

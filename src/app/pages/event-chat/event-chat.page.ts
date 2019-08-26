@@ -49,19 +49,20 @@ export class EventChatPage implements OnInit {
     this.getEvent();
   }
 
-  ngOnInit() {
+  ngOnInit() {  
+
     // this.socket = io('https://tiripon.herokuapp.com:443');
-    this.socket = io('http://192.168.1.11:3000');
+    this.socket = io('http://localhost:3000');
     this.socket.on('connect', () => {
-      //alert('connected from the server.');
+      alert('connected from the server.');
     }); 
 
     this.socket.emit('join group chat', {
-      'event_id': this.event.event_id
+      'designation_id': this.event.designation_id
     });
 
     this.socket.on('get group chat messages', groupChatMessages => {
-      
+      //alert(JSON.stringify(groupChatMessages));
       this.ngZone.run(() => { 
         this.groupChatMessages = groupChatMessages;
         setTimeout(() => { 
@@ -104,7 +105,7 @@ export class EventChatPage implements OnInit {
   getUser() {  
     this.storage.get('user').then(user => {
       this.user = user;
-      //alert(JSON.stringify(this.user));
+      // alert(JSON.stringify(this.user));
     }); 
   }   
 
@@ -112,6 +113,7 @@ export class EventChatPage implements OnInit {
   getEvent() {  
     this.route.queryParams.subscribe(event => {  
       this.event = event;
+      alert(JSON.stringify(this.event));
     });   
   }  
 
@@ -121,7 +123,7 @@ export class EventChatPage implements OnInit {
     const groupChatMessage : object = {
       'event_id'       : this.event.event_id,
       'user_id'        : this.user.user_id,
-      'designation_id' : 3,
+      'designation_id' : this.event.designation_id,
       'message'        : this.groupChatMessageText
     }
 
