@@ -29,19 +29,36 @@
   <div [ngSwitch]="chatType" padding>
     
     <div *ngSwitchCase="'general'"> 
-      <ion-list *ngIf="groupChatMessages" no-margin no-padding>
-        <ion-item *ngFor="let message of groupChatMessages" lines="none" no-margin no-padding>
-          <ion-avatar slot="start" *ngIf="!hasUserProfilePic(message.profile_path)">
-            <ion-img src="assets/images/avatar.png"></ion-img> 
-          </ion-avatar>
-          <ion-avatar slot="start" *ngIf="hasUserProfilePic(message.profile_path)">
-            <ion-img src="{{ profilePicDir + message.profile_path }}"></ion-img> 
-          </ion-avatar>
-          <ion-label>
-            <h2>{{ message.firstname }} {{ message.lastname }}</h2>
-            <p>{{ message.message }}</p>
-          </ion-label>
-        </ion-item> 
+      <ion-list *ngIf="groupChatMessages" no-margin no-padding> 
+        
+          <ion-item *ngFor="let message of groupChatMessages" lines="none" no-margin no-padding>
+            <div slot="end" *ngIf="user.user_id === message.user_id">
+              <ion-avatar slot="start" *ngIf="!hasUserProfilePic(message.profile_path)">
+                <ion-img src="assets/images/avatar.png"></ion-img> 
+              </ion-avatar>
+              <ion-avatar slot="start" *ngIf="hasUserProfilePic(message.profile_path)">
+                <ion-img src="{{ profilePicDir + message.profile_path }}"></ion-img> 
+              </ion-avatar>
+              <ion-label>
+                <h2>{{ message.firstname }} {{ message.lastname }}</h2>
+                <p>{{ message.message }}</p>
+              </ion-label>
+            </div>
+
+            <div slot="start" *ngIf="user.user_id !== message.user_id">
+              <ion-avatar slot="start" *ngIf="!hasUserProfilePic(message.profile_path)">
+                <ion-img src="assets/images/avatar.png"></ion-img> 
+              </ion-avatar>
+              <ion-avatar slot="start" *ngIf="hasUserProfilePic(message.profile_path)">
+                <ion-img src="{{ profilePicDir + message.profile_path }}"></ion-img> 
+              </ion-avatar>
+              <ion-label>
+                <h2>{{ message.firstname }} {{ message.lastname }}</h2>
+                <p>{{ message.message }}</p>
+              </ion-label>
+            </div>
+          </ion-item>   
+
       </ion-list>
 
       <ion-list *ngIf="groupChatMessages.length === 0" no-margin no-padding>
