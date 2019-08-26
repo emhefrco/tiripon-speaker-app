@@ -24,12 +24,64 @@
     </ion-grid> 
   </ion-segment>
 
-<ion-content #content> 
+<ion-content padding #content> 
   
-  <div [ngSwitch]="chatType" padding>
+  <div [ngSwitch]="chatType">
     
     <div *ngSwitchCase="'general'"> 
-      <ion-list *ngIf="groupChatMessages" no-margin no-padding> 
+
+  <div *ngIf="groupChatMessages">
+
+    <ion-list lines="none" *ngFor="let groupChatMessage of groupChatMessages">
+
+      <div *ngIf="user.user_id !== groupChatMessage.user_id">
+        <ion-item class="no-overlap">
+          <div slot="start">
+            <ion-avatar class="avatar-size">
+              <ion-img src="{{ profilePicDir + groupChatMessage.profile_path }}"></ion-img> 
+            </ion-avatar>
+          </div>
+
+          <ion-row>
+            <ion-col>
+              <ion-label>
+                <p>{{groupChatMessage.firstname}}</p>
+              </ion-label>
+
+              <div class="receiver-chatbox-background">
+                <ion-label text-wrap>
+                  <p>{{groupChatMessage.message}}</p>
+                </ion-label>
+              </div>
+            </ion-col>
+          </ion-row>
+ 
+        </ion-item>
+      </div>
+
+
+
+      <div *ngIf="user.user_id === groupChatMessage.user_id"> 
+        <ion-item class="no-overlap">
+          <div slot="end" class="sender-chatbox-background">
+            <ion-label text-wrap>
+              {{groupChatMessage.message}}
+            </ion-label>
+          </div>
+          <div slot="end">
+            <ion-avatar class="avatar-size" *ngIf="groupChatMessage.profile_path">
+              <ion-img src="{{ profilePicDir + groupChatMessage.profile_path }}"></ion-img> 
+            </ion-avatar>
+            <ion-avatar class="avatar-size" *ngIf="!groupChatMessage.profile_path">
+              <ion-img src="assets/images/avatar.png"></ion-img> 
+            </ion-avatar>
+          </div>
+        </ion-item> 
+      </div>
+    </ion-list>
+  </div>
+
+      <!-- <ion-list *ngIf="groupChatMessages" no-margin no-padding> 
         
           <ion-item *ngFor="let message of groupChatMessages" lines="none" no-margin no-padding>
             <div slot="end" *ngIf="user.user_id === message.user_id">
@@ -71,7 +123,7 @@
             <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
           </ion-label>
         </ion-item> 
-      </ion-list>  
+      </ion-list>   -->
     </div>
 
 
@@ -94,10 +146,10 @@
     </div>
   </div>
 </ion-content>
-<ion-footer>
+<!-- <ion-footer>
   <div [ngSwitch]="chatType" padding>
     <div *ngSwitchCase="'general'">
-      <!-- <h1>General</h1> -->  
+      <!-- <h1>General</h1>
       <ion-grid>
         <ion-row class="ion-align-items-center">
           <ion-col size="10"> 
@@ -108,15 +160,30 @@
           </ion-col>
           <ion-col size="2">
             <ion-button color="light" expand="full" (click)="sendGroupChatMessage()" shape="round">Send</ion-button>
-             <!-- <ion-icon name="paper-plane" (click)="sendMessage()" button>
+            <ion-icon name="paper-plane" (click)="sendMessage()" button>
               <ion-ripple-effect></ion-ripple-effect>
-            </ion-icon> -->
+            </ion-icon> 
           </ion-col>
         </ion-row>
       </ion-grid>
     </div>
     <div *ngSwitchCase="'direct-messages'">
-      <!-- <h1>Direct Messages</h1> -->
+       <h1>Direct Messages</h1> 
     </div>
   </div>
+</ion-footer> -->
+
+<ion-footer>
+
+  <ion-item>
+    <div slot="start">
+      <ion-textarea [(ngModel)]="groupChatMessageText" placeholder="Type a message..."></ion-textarea>
+    </div>
+    <div slot="end">
+      <ion-button fill="clear" (click)="sendGroupChatMessage()">
+        <ion-icon slot="icon-only" name="send"></ion-icon>
+      </ion-button>
+    </div>
+  </ion-item>
+
 </ion-footer>

@@ -54,7 +54,7 @@ export class EventChatPage implements OnInit {
     this.socket = io('https://tiripon.herokuapp.com:443');
     //this.socket = io('http://localhost:3000');
     this.socket.on('connect', () => {
-      alert('connected from the server.');
+      //alert('connected from the server.');
     }); 
 
     this.socket.emit('join group chat', {
@@ -67,16 +67,16 @@ export class EventChatPage implements OnInit {
         this.groupChatMessages = groupChatMessages;
         setTimeout(() => { 
           this.content.scrollToBottom(300); 
-        });
+        }, 1000);
       });
       //alert(JSON.stringify(this.groupChatMessages));
     });
 
     this.socket.on('get saved group chat message', groupChatMessage => {
       // alert(JSON.stringify(groupChatMessage));
-      groupChatMessage.firstname = this.user.firstname;
-      groupChatMessage.lastname = this.user.lastname;
-      groupChatMessage.profile_path = this.user.profile_path;
+       groupChatMessage = groupChatMessage[0];  
+        //this.groupChatMessages.push(groupChatMessage);
+
       //alert(JSON.stringify(groupChatMessage));
       this.ngZone.run(() => {  
         this.groupChatMessages.push(groupChatMessage);
@@ -113,7 +113,7 @@ export class EventChatPage implements OnInit {
   getEvent() {  
     this.route.queryParams.subscribe(event => {  
       this.event = event;
-      alert(JSON.stringify(this.event));
+      //alert(JSON.stringify(this.event));
     });   
   }  
 
