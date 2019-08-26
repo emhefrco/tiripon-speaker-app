@@ -51,8 +51,8 @@ export class EventChatPage implements OnInit {
 
   ngOnInit() {  
 
-    // this.socket = io('https://tiripon.herokuapp.com:443');
-    this.socket = io('http://localhost:3000');
+    this.socket = io('https://tiripon.herokuapp.com:443');
+    //this.socket = io('http://localhost:3000');
     this.socket.on('connect', () => {
       alert('connected from the server.');
     }); 
